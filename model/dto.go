@@ -1,18 +1,19 @@
 package model
 
 type ImgMetaData struct {
+	Id         int64
 	FileName   string
 	Tags       []string
 	Data       string
 	LoadByUser string
 }
 
-type TagsToImages struct {
+type TagToImages struct {
 	Tag    string
 	Images []ImgMetaData
 }
 
-type Users struct {
+type User struct {
 	User     string
 	Email    string
 	PassHash string

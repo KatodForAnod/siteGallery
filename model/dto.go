@@ -1,10 +1,12 @@
 package model
 
+import "html/template"
+
 type ImgMetaData struct {
 	Id         int64
 	FileName   string
 	Tags       []string
-	Data       string
+	Data       template.URL
 	LoadByUser string
 }
 

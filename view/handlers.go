@@ -1,10 +1,33 @@
 package view
 
-import "net/http"
+import (
+	"html/template"
+	"log"
+	"net/http"
+	"siteGallery/controller"
+)
 
 type Handlers struct {
+	controller controller.Controller
 }
 
-func (h Handlers) Default(w http.ResponseWriter, r *http.Request) {
+func (h Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("data/index.tmpl", "data/imgBlock.tmpl")
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
 
+	imagesArr, err := h.controller.GetImages(0, 5)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "server err", http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", imagesArr)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
 }

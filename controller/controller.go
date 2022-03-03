@@ -6,6 +6,7 @@ import (
 )
 
 type Controller struct {
+	db model.Database
 }
 
 func (c Controller) GetImages(offset, limit int64) ([]model.ImgMetaData, error) {
@@ -19,4 +20,8 @@ func (c Controller) GetImages(offset, limit int64) ([]model.ImgMetaData, error) 
 
 	imageArr := []model.ImgMetaData{image, image, image, image}
 	return imageArr, nil
+}
+
+func (c Controller) LoadImage(data model.ImgMetaData) error {
+	panic("not relize")
 }

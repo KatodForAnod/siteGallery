@@ -1,7 +1,9 @@
 {{define "imgBlock"}}
 <div class="mainBlock">
     <p class="thumb">
+        {{range .}}
         <img  src={{.Data}} alt="Blank"/>
+        {{end}}
     </p>
     <div class="mainBlockControl">
         <ul class="prevCurrNext">

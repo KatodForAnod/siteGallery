@@ -1,7 +1,6 @@
 package view
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"siteGallery/config"
@@ -9,14 +8,16 @@ import (
 )
 
 func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {
-	addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port
-	fmt.Println("Server is listening...", addr)
+	//addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port
+	//fmt.Println("Server is listening...", addr)
 
 	handlers := Handlers{controller: controller}
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/test", handlers.GetImagesPage)
-	err := http.ListenAndServe(addr, mux)
+	mux.HandleFunc("/mainPg", handlers.GetImagesPage)
+	mux.HandleFunc("/loadImg", handlers.LoadImagePageGet)
+	mux.HandleFunc("/loadImage2", handlers.LoadImagePagePost)
+	err := http.ListenAndServe(":4000", mux)
 	log.Fatal(err)
 	return nil
 }

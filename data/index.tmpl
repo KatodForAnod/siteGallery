@@ -1,3 +1,4 @@
+{{define "MainPage"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +113,7 @@
         </div>
     </div>
 
-    {{template "imgBlock"}}
+    {{template "imgBlock" .}}
 
     <div class="bottomImage">
         <hr>
@@ -121,3 +122,4 @@
 </div>
 </body>
 </html>
+{{end}}

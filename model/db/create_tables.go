@@ -5,7 +5,7 @@ import "log"
 const createImgTable = `CREATE TABLE IF NOT EXISTS Img (
     id SERIAL PRIMARY KEY,
     img text,
-    tags varchar(40)[]`
+    tags varchar(40)[])`
 
 //    load_by_user varchar(40) REFERENCES Users(id))`
 

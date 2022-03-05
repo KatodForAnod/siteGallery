@@ -30,5 +30,11 @@ func GetPostgresSQlConn(dbConfig config.Config) (model.Database, error) {
 		return nil, err
 	}
 
-	return postgreSQl{conn: db}, nil
+	instance := postgreSQl{conn: db}
+	if err = instance.CreateAllTables(); err != nil {
+		log.Println(err)
+		return postgreSQl{}, err
+	}
+
+	return instance, nil
 }

@@ -1,18 +1,20 @@
 package view
 
 import (
+	"encoding/base64"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"siteGallery/controller"
+	"siteGallery/model"
 )
 
 type Handlers struct {
 	controller controller.Controller
 }
 
-func (h Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("data/index.tmpl", "data/imgBlock.tmpl")
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -33,7 +35,7 @@ func (h Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("data/index.tmpl", "data/downloadFile.tmpl")
 	if err != nil {
 		http.Error(w, err.Error(), 400)
@@ -47,11 +49,47 @@ func (h Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
+const MAX_UPLOAD_SIZE = 1024 * 1024 // 1MB
+func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
 	}
-	model, header, _ := r.FormFile("photo")
-	fmt.Println(model, header)
+
+	file, fileHeader, err := r.FormFile("photo")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	buff := make([]byte, 1024*1024)
+	_, err = file.Read(buff)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if fileHeader.Size > MAX_UPLOAD_SIZE {
+		http.Error(w,
+			"The uploaded file is too big. Please choose an file that's less than 1MB in size",
+			http.StatusInternalServerError)
+		return
+	}
+
+	contentType := fileHeader.Header.Get("Content-Type")
+	if contentType == "" {
+		http.Error(w, "", http.StatusInternalServerError)
+		return
+	}
+
+	dataEncode := base64.StdEncoding.EncodeToString(buff)
+	newImage := model.ImgMetaData{
+		FileName:   fileHeader.Filename,
+		Tags:       nil,
+		Data:       template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),
+		LoadByUser: "",
+	}
+
+	_ = h.controller.LoadImage(newImage)
+	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }

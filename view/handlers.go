@@ -85,7 +85,7 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 	dataEncode := base64.StdEncoding.EncodeToString(buff)
 	newImage := model.ImgMetaData{
 		FileName:   fileHeader.Filename,
-		Tags:       nil,
+		Tags:       []string{},
 		Data:       template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),
 		LoadByUser: "",
 	}

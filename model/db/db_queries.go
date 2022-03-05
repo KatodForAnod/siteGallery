@@ -2,12 +2,24 @@ package db
 
 import (
 	"github.com/lib/pq"
+	"html/template"
 	"log"
 	"siteGallery/model"
 )
 
+const addImage = `
+	INSERT INTO img
+	VALUES (DEFAULT,$1,$2)
+`
+
 func (p postgreSQl) AddImage(data model.ImgMetaData) error {
-	panic("implement me")
+	_, err := p.conn.Exec(addImage, string(data.Data), (*pq.StringArray)(&data.Tags))
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
 }
 
 func (p postgreSQl) RemoveImage(id int64) error {
@@ -19,7 +31,7 @@ func (p postgreSQl) GetImage(id int64) (model.ImgMetaData, error) {
 }
 
 const getImages = `
-	SELECT id, img_data, tags, load_by_user
+	SELECT id, img.img, tags
 	FROM img
 	OFFSET $1
 	LIMIT $2
@@ -36,11 +48,13 @@ func (p postgreSQl) GetImages(offSet, limit int64) ([]model.ImgMetaData, error) 
 	imges := make([]model.ImgMetaData, 0, 10)
 	data := model.ImgMetaData{}
 	for rows.Next() {
-		err := rows.Scan(&data.Id, &data.Data, (*pq.StringArray)(&data.Tags), &data.LoadByUser)
+		var fileBody string
+		err := rows.Scan(&data.Id, &fileBody, (*pq.StringArray)(&data.Tags))
 		if err != nil {
 			log.Println(err)
 			continue
 		}
+		data.Data = template.URL(fileBody)
 		imges = append(imges, data)
 	}
 

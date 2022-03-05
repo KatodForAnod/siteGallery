@@ -1,8 +1,14 @@
 package config
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+)
+
 type Config struct {
-	DBConfig dbConf
-	SvConfig server
+	DBConfig dbConf `json:"db_config"`
+	SvConfig server `json:"sv_config"`
 }
 
 type dbConf struct {
@@ -15,4 +21,17 @@ type dbConf struct {
 type server struct {
 	Host string `json:"host"`
 	Port string `json:"port"`
+}
+
+const configPath = "conf.config"
+
+func LoadConfig() (loadedConf Config, err error) {
+	data, err := ioutil.ReadFile(configPath)
+	if err != nil {
+		log.Println(err)
+		return Config{}, err
+	}
+
+	err = json.Unmarshal(data, &loadedConf)
+	return
 }

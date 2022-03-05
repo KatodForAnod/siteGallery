@@ -62,17 +62,17 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	buff := make([]byte, 1024*1024)
-	_, err = file.Read(buff)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	if fileHeader.Size > MAX_UPLOAD_SIZE {
 		http.Error(w,
 			"The uploaded file is too big. Please choose an file that's less than 1MB in size",
 			http.StatusInternalServerError)
+		return
+	}
+
+	buff := make([]byte, MAX_UPLOAD_SIZE)
+	_, err = file.Read(buff)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 

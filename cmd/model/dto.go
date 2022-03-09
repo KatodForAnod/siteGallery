@@ -16,6 +16,7 @@ type TagToImages struct {
 }
 
 type User struct {
+	Id       int64
 	User     string
 	Email    string
 	PassHash string

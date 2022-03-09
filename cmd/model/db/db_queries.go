@@ -76,6 +76,28 @@ func (p postgreSQl) AddUser(user model.User) error {
 	return nil
 }
 
+const getUser = `
+	SELECT email, id, name
+	FROM users
+	WHERE email = $1
+`
+
 func (p postgreSQl) GetUser(email string) (model.User, error) {
-	panic("implement me")
+	rows, err := p.conn.Query(getUser, email)
+	if err != nil {
+		log.Println(err)
+		return model.User{}, err
+	}
+	defer rows.Close()
+
+	data := model.User{}
+	for rows.Next() {
+		err := rows.Scan(&data.Email, &data.Id, &data.User)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+	}
+
+	return data, nil
 }

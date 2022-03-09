@@ -15,7 +15,8 @@ type postgreSQl struct {
 
 func GetPostgresSQlConn(dbConfig config.Config) (model.Database, error) {
 	log.Println("Starting initialization postgres db...")
-	connStr := fmt.Sprintf(`user=%s password=%s dbname=%s sslmode=%s`,
+	connStr := fmt.Sprintf(`host=%s port=%d user=%s password=%s dbname=%s sslmode=%s`,
+		dbConfig.DBConfig.Host, dbConfig.DBConfig.Port,
 		dbConfig.DBConfig.User, dbConfig.DBConfig.Password,
 		dbConfig.DBConfig.Dbname, dbConfig.DBConfig.Sslmode)
 

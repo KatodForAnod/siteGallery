@@ -10,7 +10,8 @@ const createImgTable = `CREATE TABLE IF NOT EXISTS Img (
 //    load_by_user varchar(40) REFERENCES Users(id))`
 
 const createUserTable = `CREATE TABLE IF NOT EXISTS Users (
-    id SERIAL PRIMARY KEY,
+    email varchar(40) PRIMARY KEY,
+    id SERIAL,
     name varchar(40) )`
 
 func (p *postgreSQl) CreateAllTables() error {

@@ -46,3 +46,8 @@ func (c *Controller) CreateUser(user model2.User) error {
 	log.Println("Create user")
 	return c.db.AddUser(user)
 }
+
+func (c *Controller) GetUser(email string) (model2.User, error) {
+	log.Println("Get user")
+	return c.db.GetUser(email)
+}

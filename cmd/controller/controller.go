@@ -41,3 +41,8 @@ func (c *Controller) LoadImage(data model2.ImgMetaData) error {
 	log.Println("LoadImage controller")
 	return c.db.AddImage(data)
 }
+
+func (c *Controller) CreateUser(user model2.User) error {
+	log.Println("Create user")
+	return c.db.AddUser(user)
+}

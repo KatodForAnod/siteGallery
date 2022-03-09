@@ -61,8 +61,19 @@ func (p postgreSQl) GetImages(offSet, limit int64) ([]model.ImgMetaData, error) 
 	return imges, nil
 }
 
+const addUser = `
+	INSERT INTO users
+	VALUES (DEFAULT, $1)
+`
+
 func (p postgreSQl) AddUser(user model.User) error {
-	panic("implement me")
+	_, err := p.conn.Exec(addUser, user.User)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
 }
 
 func (p postgreSQl) GetUser(email string) (model.User, error) {

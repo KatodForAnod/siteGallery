@@ -2,9 +2,9 @@ package controller
 
 import (
 	"log"
-	"siteGallery/config"
-	"siteGallery/model"
-	"siteGallery/model/db"
+	"siteGallery/cmd/config"
+	model2 "siteGallery/cmd/model"
+	"siteGallery/cmd/model/db"
 	"sync"
 )
 
@@ -14,13 +14,13 @@ var (
 )
 
 type Controller struct {
-	db model.Database
+	db model2.Database
 }
 
 func GetControllerInstance(config config.Config) (Controller, error) {
 	var err error
 	sc.Do(func() {
-		var dbModel model.Database
+		var dbModel model2.Database
 		dbModel, err = db.GetPostgresSQlConn(config)
 		if err != nil {
 			log.Println(err)
@@ -32,12 +32,12 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 	return controller, err
 }
 
-func (c *Controller) GetImages(offset, limit int64) ([]model.ImgMetaData, error) {
+func (c *Controller) GetImages(offset, limit int64) ([]model2.ImgMetaData, error) {
 	log.Println("GetImages controller")
 	return c.db.GetImages(offset, limit)
 }
 
-func (c *Controller) LoadImage(data model.ImgMetaData) error {
+func (c *Controller) LoadImage(data model2.ImgMetaData) error {
 	log.Println("LoadImage controller")
 	return c.db.AddImage(data)
 }

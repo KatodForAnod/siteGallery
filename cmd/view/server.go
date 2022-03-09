@@ -3,8 +3,8 @@ package view
 import (
 	"log"
 	"net/http"
-	"siteGallery/config"
-	"siteGallery/controller"
+	"siteGallery/cmd/config"
+	"siteGallery/cmd/controller"
 )
 
 func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {

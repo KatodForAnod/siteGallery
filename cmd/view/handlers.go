@@ -6,8 +6,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"siteGallery/controller"
-	"siteGallery/model"
+	"siteGallery/cmd/controller"
+	"siteGallery/cmd/model"
 )
 
 type Handlers struct {

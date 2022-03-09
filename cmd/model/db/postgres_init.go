@@ -5,8 +5,8 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"log"
-	"siteGallery/config"
-	"siteGallery/model"
+	"siteGallery/cmd/config"
+	"siteGallery/cmd/model"
 )
 
 type postgreSQl struct {

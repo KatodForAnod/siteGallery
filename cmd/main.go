@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
-	"siteGallery/config"
-	"siteGallery/controller"
-	"siteGallery/view"
+	"siteGallery/cmd/config"
+	"siteGallery/cmd/controller"
+	"siteGallery/cmd/view"
 )
 
 func main() {

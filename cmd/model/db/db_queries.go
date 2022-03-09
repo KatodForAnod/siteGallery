@@ -4,7 +4,7 @@ import (
 	"github.com/lib/pq"
 	"html/template"
 	"log"
-	"siteGallery/model"
+	"siteGallery/cmd/model"
 )
 
 const addImage = `

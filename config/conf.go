@@ -13,6 +13,8 @@ type Config struct {
 
 type dbConf struct {
 	User     string `json:"user"`
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
 	Password string `json:"password"`
 	Dbname   string `json:"dbname"`
 	Sslmode  string `json:"sslmode"`

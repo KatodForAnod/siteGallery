@@ -12,7 +12,8 @@ const createImgTable = `CREATE TABLE IF NOT EXISTS Img (
 const createUserTable = `CREATE TABLE IF NOT EXISTS Users (
     email varchar(40) PRIMARY KEY,
     id SERIAL,
-    name varchar(40) )`
+    name varchar(40),
+    password varchar(40))`
 
 func (p *postgreSQl) CreateAllTables() error {
 	if _, err := p.conn.Exec(createUserTable); err != nil {

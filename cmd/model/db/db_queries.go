@@ -63,11 +63,11 @@ func (p postgreSQl) GetImages(offSet, limit int64) ([]model.ImgMetaData, error) 
 
 const addUser = `
 	INSERT INTO users
-	VALUES ($1, DEFAULT, $2)
+	VALUES ($1, DEFAULT, $2, $3)
 `
 
 func (p postgreSQl) AddUser(user model.User) error {
-	_, err := p.conn.Exec(addUser, user.Email, user.User)
+	_, err := p.conn.Exec(addUser, user.Email, user.User, user.PassHash)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -77,7 +77,7 @@ func (p postgreSQl) AddUser(user model.User) error {
 }
 
 const getUser = `
-	SELECT email, id, name
+	SELECT email, id, name, password
 	FROM users
 	WHERE email = $1
 `
@@ -92,7 +92,7 @@ func (p postgreSQl) GetUser(email string) (model.User, error) {
 
 	data := model.User{}
 	for rows.Next() {
-		err := rows.Scan(&data.Email, &data.Id, &data.User)
+		err := rows.Scan(&data.Email, &data.Id, &data.User, &data.PassHash)
 		if err != nil {
 			log.Println(err)
 			continue

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"errors"
 	"github.com/lib/pq"
 	"html/template"
 	"log"
@@ -97,7 +98,9 @@ func (p postgreSQl) GetUser(email string) (model.User, error) {
 			log.Println(err)
 			continue
 		}
+
+		return data, nil
 	}
 
-	return data, nil
+	return data, errors.New("user not found")
 }

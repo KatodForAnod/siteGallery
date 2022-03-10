@@ -17,6 +17,10 @@ func StartHttpServer(loadedConf config.Config, controller controller.Controller)
 	mux.HandleFunc("/mainPg", handlers.GetImagesPage)
 	mux.HandleFunc("/loadImg", handlers.LoadImagePageGet)
 	mux.HandleFunc("/loadImage2", handlers.LoadImagePagePost)
+	mux.HandleFunc("/login", handlers.Login)
+	mux.HandleFunc("/auth", handlers.Auth)
+	mux.HandleFunc("/logout", handlers.Logout)
+
 	err := http.ListenAndServe(":4000", mux)
 	log.Fatal(err)
 	return nil

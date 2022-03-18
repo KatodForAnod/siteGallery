@@ -20,7 +20,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/registration", ActionName: "Войти"}
+	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти"}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -36,7 +36,7 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Зарегистрироваться"}
+	f := LoginRegistrationPage{ActionLink: "/registration", ActionName: "Зарегистрироваться"}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -47,8 +47,8 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
-	password := r.FormValue("password")
-	email := r.FormValue("email")
+	password := r.FormValue("auth_pass")
+	email := r.FormValue("auth_email")
 
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -81,8 +81,8 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	//username :=	r.FormValue("username")
-	password := r.FormValue("password")
-	email := r.FormValue("email")
+	password := r.FormValue("auth_pass")
+	email := r.FormValue("auth_email")
 
 	user, err := h.controller.GetUser(email)
 	if err != nil {

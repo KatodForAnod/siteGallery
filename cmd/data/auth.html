@@ -53,12 +53,12 @@
 <div class="form_auth_block">
     <div class="form_auth_block_content">
 
-        <form action="#" class="form_auth_style" method="post">
+        <form action={{.ActionLink}} class="form_auth_style" method="post">
             <label><b>Email</b></label>
             <input name="auth_email" placeholder="Введите Ваш имейл" required type="email">
             <label><b>Password</b></label>
             <input name="auth_pass" placeholder="Введите пароль" required type="password">
-            <button class="form_auth_button" name="form_auth_submit" type="submit">Войти</button>
+            <button class="form_auth_button" name="form_auth_submit" type="submit">{{.ActionName}}</button>
         </form>
     </div>
 </div>

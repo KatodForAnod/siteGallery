@@ -2,10 +2,48 @@ package view
 
 import (
 	"golang.org/x/crypto/bcrypt"
+	"html/template"
 	"log"
 	"net/http"
 	"siteGallery/cmd/model"
 )
+
+type LoginRegistrationPage struct {
+	ActionLink string
+	ActionName string
+}
+
+func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("cmd/data/auth.html")
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+
+	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти"}
+
+	err = tmpl.Execute(w, f)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+}
+
+func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("cmd/data/auth.html")
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+
+	f := LoginRegistrationPage{ActionLink: "/auth", ActionName: "Зарегистрироваться"}
+
+	err = tmpl.Execute(w, f)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
+}
 
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")

@@ -21,6 +21,9 @@ func StartHttpServer(loadedConf config.Config, controller controller.Controller)
 	mux.HandleFunc("/auth", handlers.Auth)
 	mux.HandleFunc("/logout", handlers.Logout)
 
+	mux.HandleFunc("/log", handlers.GetLoginPage)
+	mux.HandleFunc("/reg", handlers.GetRegistrationPage)
+
 	err := http.ListenAndServe(":4000", mux)
 	log.Fatal(err)
 	return nil

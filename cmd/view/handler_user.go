@@ -20,7 +20,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти"}
+	f := LoginRegistrationPage{ActionLink: "/registration", ActionName: "Войти"}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -36,7 +36,7 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/auth", ActionName: "Зарегистрироваться"}
+	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Зарегистрироваться"}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -45,7 +45,7 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	email := r.FormValue("email")
@@ -79,7 +79,7 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Authorization", token)
 }
 
-func (h *Handlers) Auth(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	//username :=	r.FormValue("username")
 	password := r.FormValue("password")
 	email := r.FormValue("email")

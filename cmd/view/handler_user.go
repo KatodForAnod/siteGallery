@@ -76,7 +76,10 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Authorization", token)
+	authCookie := http.Cookie{Name: "x-token", Value: token}
+	http.SetCookie(w, &authCookie)
+	//w.Header().Set("Authorization", token)
+	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
 
 func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
@@ -109,7 +112,10 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Authorization", token)
+	authCookie := http.Cookie{Name: "x-token", Value: token}
+	http.SetCookie(w, &authCookie)
+	//w.Header().Set("Authorization", token)
+	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
 
 func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {

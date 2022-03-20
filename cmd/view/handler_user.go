@@ -123,3 +123,16 @@ func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{Name: "x-token"})
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
+
+func (h *Handlers) checkTime(f http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		/*
+			if  lala {
+
+				http.Error(w, "access denied", http.StatusLocked)
+				return
+			}*/
+
+		f(w, r)
+	}
+}

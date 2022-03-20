@@ -112,7 +112,7 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	authCookie := http.Cookie{Name: "x-token", Value: token}
+	authCookie := http.Cookie{Name: "x-token", Value: token} // x-token to constant
 	http.SetCookie(w, &authCookie)
 	//w.Header().Set("Authorization", token)
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
@@ -120,5 +120,6 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {
 	w.Header().Del("Authorization")
+	http.SetCookie(w, &http.Cookie{Name: "x-token"})
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }

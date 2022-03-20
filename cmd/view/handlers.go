@@ -1,13 +1,13 @@
 package view
 
 import (
+	"KatodForAnod/siteGallery/cmd/controller"
+	"KatodForAnod/siteGallery/cmd/model"
 	"encoding/base64"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"siteGallery/cmd/controller"
-	"siteGallery/cmd/model"
 )
 
 type Handlers struct {

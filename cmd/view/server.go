@@ -1,10 +1,10 @@
 package view
 
 import (
+	"KatodForAnod/siteGallery/cmd/config"
+	"KatodForAnod/siteGallery/cmd/controller"
 	"log"
 	"net/http"
-	"siteGallery/cmd/config"
-	"siteGallery/cmd/controller"
 )
 
 func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {

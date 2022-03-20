@@ -1,11 +1,11 @@
 package db
 
 import (
+	"KatodForAnod/siteGallery/cmd/model"
 	"errors"
 	"github.com/lib/pq"
 	"html/template"
 	"log"
-	"siteGallery/cmd/model"
 )
 
 const addImage = `

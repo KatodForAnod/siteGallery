@@ -1,10 +1,10 @@
 package main
 
 import (
+	"KatodForAnod/siteGallery/cmd/config"
+	"KatodForAnod/siteGallery/cmd/controller"
+	"KatodForAnod/siteGallery/cmd/view"
 	"log"
-	"siteGallery/cmd/config"
-	"siteGallery/cmd/controller"
-	"siteGallery/cmd/view"
 )
 
 func main() {

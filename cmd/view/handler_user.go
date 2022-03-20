@@ -1,11 +1,11 @@
 package view
 
 import (
+	"KatodForAnod/siteGallery/cmd/model"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"
 	"net/http"
-	"siteGallery/cmd/model"
 )
 
 type LoginRegistrationPage struct {

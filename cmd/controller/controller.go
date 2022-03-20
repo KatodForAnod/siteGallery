@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"KatodForAnod/siteGallery/cmd/config"
+	model2 "KatodForAnod/siteGallery/cmd/model"
+	"KatodForAnod/siteGallery/cmd/model/db"
 	"log"
-	"siteGallery/cmd/config"
-	model2 "siteGallery/cmd/model"
-	"siteGallery/cmd/model/db"
 	"sync"
 )
 

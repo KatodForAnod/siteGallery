@@ -1,4 +1,4 @@
-module siteGallery
+module KatodForAnod/siteGallery
 
 go 1.17
 

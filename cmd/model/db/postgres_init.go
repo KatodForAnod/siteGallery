@@ -1,12 +1,12 @@
 package db
 
 import (
+	"KatodForAnod/siteGallery/cmd/config"
+	"KatodForAnod/siteGallery/cmd/model"
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
 	"log"
-	"siteGallery/cmd/config"
-	"siteGallery/cmd/model"
 )
 
 type postgreSQl struct {

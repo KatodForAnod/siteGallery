@@ -124,15 +124,26 @@ func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
 
-func (h *Handlers) checkTime(f http.HandlerFunc) http.HandlerFunc {
+func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		/*
-			if  lala {
+		for _, cookie := range r.Cookies() {
+			if cookie.Name == "x-token" {
+				verifyToken, err := VerifyToken(cookie.Value)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				if !verifyToken.Valid {
+					http.Error(w, "pls re-login", http.StatusUnauthorized)
+					return
+				}
 
-				http.Error(w, "access denied", http.StatusLocked)
+				f(w, r)
 				return
-			}*/
+			}
+		}
 
-		f(w, r)
+		http.Error(w, "pls login", http.StatusUnauthorized)
+		return
 	}
 }

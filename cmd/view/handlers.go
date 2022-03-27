@@ -22,9 +22,14 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	idStr := r.URL.Query().Get("id")
+	if idStr == "" {
+		idStr = "1"
+	}
+
+	id, err := strconv.Atoi(idStr)
 	if err != nil || id < 1 {
-		http.Error(w, "server err", http.StatusInternalServerError) //temp
+		http.Error(w, "server err", http.StatusInternalServerError)
 		return
 	}
 

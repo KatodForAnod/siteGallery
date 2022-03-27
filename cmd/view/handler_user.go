@@ -130,7 +130,7 @@ func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
 			if cookie.Name == "x-token" {
 				verifyToken, err := VerifyToken(cookie.Value)
 				if err != nil {
-					log.Println(err)
+					http.Error(w, "pls re-login", http.StatusUnauthorized)
 					return
 				}
 				if !verifyToken.Valid {

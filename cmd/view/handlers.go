@@ -28,7 +28,10 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	imagesArr, err := h.controller.GetImages(0, 14)
+	limit := 14
+	offset := (id - 1) * limit
+
+	imagesArr, err := h.controller.GetImages(int64(offset), int64(limit))
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "server err", http.StatusInternalServerError)
@@ -106,12 +109,4 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 
 	_ = h.controller.LoadImage(newImage)
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
-}
-
-func (h *Handlers) NextImagePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.RemoteAddr)
-}
-
-func (h *Handlers) PrevImagePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.RemoteAddr)
 }

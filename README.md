@@ -14,7 +14,7 @@ Main tasks:
 ### Install docker and run it
 ### Run command
 ```
-go get github.com/KatodForAnod/siteGallery
+git clone https://github.com/KatodForAnod/siteGallery.git
 ```
 ### Change directory to project siteGallery
 ### Create file .env

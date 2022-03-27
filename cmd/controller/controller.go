@@ -5,7 +5,9 @@ import (
 	model2 "KatodForAnod/siteGallery/cmd/model"
 	"KatodForAnod/siteGallery/cmd/model/db"
 	"errors"
+	"html/template"
 	"log"
+	"strconv"
 	"sync"
 )
 
@@ -51,6 +53,30 @@ func (c *Controller) GetImages(offset, limit int64) ([]model2.ImgMetaData, error
 	}
 
 	return arr, nil
+}
+
+func (c *Controller) PrepareImagesPage(imagesArr []model2.ImgMetaData,
+	id int, urlBase string) (model2.ImagesPageBody, error) {
+	if id < 1 {
+		return model2.ImagesPageBody{}, errors.New("wrong input data")
+	}
+
+	var outputData model2.ImagesPageBody
+	outputData.ImagesArr = imagesArr
+
+	var nextId, prevId string
+
+	nextId = strconv.Itoa(id + 1)
+	if id != 1 {
+		prevId = strconv.Itoa(id - 1)
+	} else {
+		prevId = strconv.Itoa(id)
+	}
+
+	outputData.PageNext = template.URL(urlBase + "?id=" + nextId)
+	outputData.PagePrev = template.URL(urlBase + "?id=" + prevId)
+
+	return outputData, nil
 }
 
 func (c *Controller) LoadImage(data model2.ImgMetaData) error {

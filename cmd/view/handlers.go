@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type Handlers struct {
@@ -21,6 +22,12 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil || id < 1 {
+		http.Error(w, "server err", http.StatusInternalServerError) //temp
+		return
+	}
+
 	imagesArr, err := h.controller.GetImages(0, 14)
 	if err != nil {
 		log.Println(err)
@@ -28,7 +35,14 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.ExecuteTemplate(w, "MainPage", imagesArr)
+	pageBody, err := h.controller.PrepareImagesPage(imagesArr, id, "/mainPg")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "server err", http.StatusInternalServerError)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", pageBody)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
@@ -92,4 +106,12 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 
 	_ = h.controller.LoadImage(newImage)
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
+}
+
+func (h *Handlers) NextImagePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.RemoteAddr)
+}
+
+func (h *Handlers) PrevImagePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.RemoteAddr)
 }

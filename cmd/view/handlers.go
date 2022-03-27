@@ -21,7 +21,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	imagesArr, err := h.controller.GetImages(0, 5)
+	imagesArr, err := h.controller.GetImages(0, 14)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "server err", http.StatusInternalServerError)

@@ -4,6 +4,7 @@ import (
 	"KatodForAnod/siteGallery/cmd/config"
 	model2 "KatodForAnod/siteGallery/cmd/model"
 	"KatodForAnod/siteGallery/cmd/model/db"
+	"errors"
 	"log"
 	"sync"
 )
@@ -34,7 +35,22 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 
 func (c *Controller) GetImages(offset, limit int64) ([]model2.ImgMetaData, error) {
 	log.Println("GetImages controller")
-	return c.db.GetImages(offset, limit)
+
+	arr, err := c.db.GetImages(offset, limit)
+	if err != nil {
+		log.Println(err)
+		return []model2.ImgMetaData{}, err
+	}
+
+	if len(arr) == 0 {
+		return []model2.ImgMetaData{}, errors.New("no images")
+	}
+
+	for len(arr) < int(limit) {
+		arr = append(arr, model2.ImgMetaData{})
+	}
+
+	return arr, nil
 }
 
 func (c *Controller) LoadImage(data model2.ImgMetaData) error {

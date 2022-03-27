@@ -3,13 +3,14 @@ package view
 import (
 	"KatodForAnod/siteGallery/cmd/config"
 	"KatodForAnod/siteGallery/cmd/controller"
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {
-	//addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port
-	//fmt.Println("Server is listening...", addr)
+	addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port
+	fmt.Println("Server is listening... ", addr)
 
 	handlers := Handlers{controller: controller}
 	mux := http.NewServeMux()
@@ -24,7 +25,7 @@ func StartHttpServer(loadedConf config.Config, controller controller.Controller)
 	mux.HandleFunc("/log", handlers.GetLoginPage)
 	mux.HandleFunc("/reg", handlers.GetRegistrationPage)
 
-	err := http.ListenAndServe(":4000", mux)
+	err := http.ListenAndServe(addr, mux)
 	log.Fatal(err)
 	return nil
 }

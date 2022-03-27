@@ -11,20 +11,20 @@ Main tasks:
 9. module recommendation by users history - not done
 
 ## How to run?
-### Install docker and run it
-### Run command
+1. ### Install docker and run it
+2. ### Run command
 ```
 git clone https://github.com/KatodForAnod/siteGallery.git
 ```
-### Change directory to project siteGallery
-### Create file .env
+3. ### Change directory to project siteGallery
+4. ### Create file .env
 ```
 POSTGRES_USER=?
 POSTGRES_PASSWORD=?
 POSTGRES_DB=?
 ACCESS_SECRET=?
 ```
-### Create file conf.config
+5. ### Create file conf.config
 ```
 {
     "db_config":{
@@ -41,7 +41,7 @@ ACCESS_SECRET=?
     }
 }
 ```
-### Run command
+6. ### Run command
 ```
 docker compose up
 ```

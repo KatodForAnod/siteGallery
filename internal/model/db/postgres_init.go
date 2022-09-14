@@ -1,8 +1,8 @@
 package db
 
 import (
-	"KatodForAnod/siteGallery/cmd/config"
-	"KatodForAnod/siteGallery/cmd/model"
+	"KatodForAnod/siteGallery/internal/config"
+	"KatodForAnod/siteGallery/internal/model"
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"

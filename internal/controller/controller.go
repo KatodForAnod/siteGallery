@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"KatodForAnod/siteGallery/cmd/config"
-	model2 "KatodForAnod/siteGallery/cmd/model"
-	"KatodForAnod/siteGallery/cmd/model/db"
+	"KatodForAnod/siteGallery/internal/config"
+	"KatodForAnod/siteGallery/internal/model"
+	"KatodForAnod/siteGallery/internal/model/db"
 	"errors"
 	"html/template"
 	"log"
@@ -17,13 +17,13 @@ var (
 )
 
 type Controller struct {
-	db model2.Database
+	db model.Database
 }
 
 func GetControllerInstance(config config.Config) (Controller, error) {
 	var err error
 	sc.Do(func() {
-		var dbModel model2.Database
+		var dbModel model.Database
 		dbModel, err = db.GetPostgresSQlConn(config)
 		if err != nil {
 			log.Println(err)
@@ -35,33 +35,33 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 	return controller, err
 }
 
-func (c *Controller) GetImages(offset, limit int64) ([]model2.ImgMetaData, error) {
+func (c *Controller) GetImages(offset, limit int64) ([]model.ImgMetaData, error) {
 	log.Println("GetImages controller")
 
 	arr, err := c.db.GetImages(offset, limit)
 	if err != nil {
 		log.Println(err)
-		return []model2.ImgMetaData{}, err
+		return []model.ImgMetaData{}, err
 	}
 
 	if len(arr) == 0 {
-		return []model2.ImgMetaData{}, errors.New("no images")
+		return []model.ImgMetaData{}, errors.New("no images")
 	}
 
 	for len(arr) < int(limit) {
-		arr = append(arr, model2.ImgMetaData{})
+		arr = append(arr, model.ImgMetaData{})
 	}
 
 	return arr, nil
 }
 
-func (c *Controller) PrepareImagesPage(imagesArr []model2.ImgMetaData,
-	id int, urlBase string) (model2.ImagesPageBody, error) {
+func (c *Controller) PrepareImagesPage(imagesArr []model.ImgMetaData,
+	id int, urlBase string) (model.ImagesPageBody, error) {
 	if id < 1 {
-		return model2.ImagesPageBody{}, errors.New("wrong input data")
+		return model.ImagesPageBody{}, errors.New("wrong input data")
 	}
 
-	var outputData model2.ImagesPageBody
+	var outputData model.ImagesPageBody
 	outputData.ImagesArr = imagesArr
 
 	var nextId, prevId string
@@ -79,17 +79,17 @@ func (c *Controller) PrepareImagesPage(imagesArr []model2.ImgMetaData,
 	return outputData, nil
 }
 
-func (c *Controller) LoadImage(data model2.ImgMetaData) error {
+func (c *Controller) LoadImage(data model.ImgMetaData) error {
 	log.Println("LoadImage controller")
 	return c.db.AddImage(data)
 }
 
-func (c *Controller) CreateUser(user model2.User) error {
+func (c *Controller) CreateUser(user model.User) error {
 	log.Println("Create user")
 	return c.db.AddUser(user)
 }
 
-func (c *Controller) GetUser(email string) (model2.User, error) {
+func (c *Controller) GetUser(email string) (model.User, error) {
 	log.Println("Get user")
 	return c.db.GetUser(email)
 }

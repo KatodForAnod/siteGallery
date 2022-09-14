@@ -1,8 +1,8 @@
 package view
 
 import (
-	"KatodForAnod/siteGallery/cmd/config"
-	"KatodForAnod/siteGallery/cmd/controller"
+	"KatodForAnod/siteGallery/internal/config"
+	"KatodForAnod/siteGallery/internal/controller"
 	"fmt"
 	"log"
 	"net/http"

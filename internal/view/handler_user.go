@@ -1,7 +1,7 @@
 package view
 
 import (
-	"KatodForAnod/siteGallery/cmd/model"
+	"KatodForAnod/siteGallery/internal/model"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"

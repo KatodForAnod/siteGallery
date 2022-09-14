@@ -1,8 +1,8 @@
 package view
 
 import (
-	"KatodForAnod/siteGallery/cmd/controller"
-	"KatodForAnod/siteGallery/cmd/model"
+	"KatodForAnod/siteGallery/internal/controller"
+	"KatodForAnod/siteGallery/internal/model"
 	"encoding/base64"
 	"fmt"
 	"html/template"

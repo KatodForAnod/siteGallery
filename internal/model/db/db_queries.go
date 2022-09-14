@@ -1,7 +1,7 @@
 package db
 
 import (
-	"KatodForAnod/siteGallery/cmd/model"
+	"KatodForAnod/siteGallery/internal/model"
 	"errors"
 	"github.com/lib/pq"
 	"html/template"

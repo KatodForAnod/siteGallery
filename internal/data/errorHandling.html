@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style>
+        .form_auth_block {
+            background: #f1f1f1;
+            padding: 1em;
+            border: 1px solid #888;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .form_auth_block_content {
+            text-align: center;
+            color: brown;
+            margin: 10px;
+            min-width: 200px;
+        }
+
+        p {
+            font-size: x-large;
+        }
+
+        input:focus {
+            border: 2px solid #436fea;
+        }
+    </style>
+</head>
+<body>
+<div class="form_auth_block">
+    <div class="form_auth_block_content">
+        <p>{{ . }}</p>
+    </div>
+</div>
+</body>
+</html>

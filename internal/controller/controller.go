@@ -6,6 +6,7 @@ import (
 	"KatodForAnod/siteGallery/internal/db/postgres"
 	"KatodForAnod/siteGallery/internal/models"
 	"errors"
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"html/template"
 	"strconv"
@@ -27,13 +28,12 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 		var dbModel db.Database
 		dbModel, err = postgres.GetPostgresSQlConn(config)
 		if err != nil {
-			log.Println(err)
 			return
 		}
 		controller.db = dbModel
 	})
 
-	return controller, err
+	return controller, fmt.Errorf("GetControllerInstance err: %s", err)
 }
 
 func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error) {
@@ -41,8 +41,7 @@ func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error
 
 	arr, err := c.db.GetImages(offset, limit)
 	if err != nil {
-		log.Println(err)
-		return []models.ImgMetaData{}, err
+		return []models.ImgMetaData{}, fmt.Errorf("GetImages err: %s", err)
 	}
 
 	if len(arr) == 0 {
@@ -59,7 +58,7 @@ func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error
 func (c *Controller) PrepareImagesPage(imagesArr []models.ImgMetaData,
 	id int, urlBase string) (models.ImagesPageBody, error) {
 	if id < 1 {
-		return models.ImagesPageBody{}, errors.New("wrong input data")
+		return models.ImagesPageBody{}, errors.New("PrepareImagesPage: wrong input data")
 	}
 
 	var outputData models.ImagesPageBody
@@ -81,16 +80,16 @@ func (c *Controller) PrepareImagesPage(imagesArr []models.ImgMetaData,
 }
 
 func (c *Controller) LoadImage(data models.ImgMetaData) error {
-	log.Println("LoadImage controller")
+	//log.Println("LoadImage controller")
 	return c.db.AddImage(data)
 }
 
 func (c *Controller) CreateUser(user models.User) error {
-	log.Println("Create user")
+	//log.Println("Create user")
 	return c.db.AddUser(user)
 }
 
 func (c *Controller) GetUser(email string) (models.User, error) {
-	log.Println("Get user")
+	//log.Println("Get user")
 	return c.db.GetUser(email)
 }

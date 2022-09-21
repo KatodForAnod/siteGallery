@@ -1,6 +1,8 @@
 package postgres
 
-import log "github.com/sirupsen/logrus"
+import (
+	"fmt"
+)
 
 const createImgTable = `CREATE TABLE IF NOT EXISTS Img (
     id SERIAL PRIMARY KEY,
@@ -17,13 +19,13 @@ const createUserTable = `CREATE TABLE IF NOT EXISTS Users (
 
 func (p *postgreSQl) CreateAllTables() error {
 	if _, err := p.conn.Exec(createUserTable); err != nil {
-		log.Println("createServerDataTableExec", err)
-		return err
+		//log.Println("createServerDataTableExec", err)
+		return fmt.Errorf("CreateAllTables createServerDataTableExec err: %s", err)
 	}
 
 	if _, err := p.conn.Exec(createImgTable); err != nil {
-		log.Println("createNodesTableExec", err)
-		return err
+		//log.Println("createNodesTableExec", err)
+		return fmt.Errorf("CreateAllTables createNodesTableExec err: %s", err)
 	}
 
 	return nil

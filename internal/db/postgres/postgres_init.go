@@ -22,19 +22,16 @@ func GetPostgresSQlConn(dbConfig config.Config) (db.Database, error) {
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Println(err)
-		return nil, err
+		return nil, fmt.Errorf("GetPostgresSQlConn err:%s", err)
 	}
 
 	if err = db.Ping(); err != nil {
-		log.Println(err)
-		return nil, err
+		return nil, fmt.Errorf("GetPostgresSQlConn err:%s", err)
 	}
 
 	instance := postgreSQl{conn: db}
 	if err = instance.CreateAllTables(); err != nil {
-		log.Println(err)
-		return postgreSQl{}, err
+		return postgreSQl{}, fmt.Errorf("GetPostgresSQlConn err:%s", err)
 	}
 
 	return instance, nil

@@ -3,6 +3,7 @@ package postgres
 import (
 	"KatodForAnod/siteGallery/internal/models"
 	"errors"
+	"fmt"
 	"github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
 	"html/template"
@@ -16,8 +17,7 @@ const addImage = `
 func (p postgreSQl) AddImage(data models.ImgMetaData) error {
 	_, err := p.conn.Exec(addImage, string(data.Data), (*pq.StringArray)(&data.Tags))
 	if err != nil {
-		log.Println(err)
-		return err
+		return fmt.Errorf("AddImage err:%s", err)
 	}
 
 	return nil
@@ -41,8 +41,7 @@ const getImages = `
 func (p postgreSQl) GetImages(offSet, limit int64) ([]models.ImgMetaData, error) {
 	rows, err := p.conn.Query(getImages, offSet, limit)
 	if err != nil {
-		log.Println(err)
-		return []models.ImgMetaData{}, err
+		return []models.ImgMetaData{}, fmt.Errorf("GetImages err: %s", err)
 	}
 	defer rows.Close()
 
@@ -52,7 +51,7 @@ func (p postgreSQl) GetImages(offSet, limit int64) ([]models.ImgMetaData, error)
 		var fileBody string
 		err := rows.Scan(&data.Id, &fileBody, (*pq.StringArray)(&data.Tags))
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 		data.Data = template.URL(fileBody)
@@ -70,8 +69,7 @@ const addUser = `
 func (p postgreSQl) AddUser(user models.User) error {
 	_, err := p.conn.Exec(addUser, user.Email, user.User, user.PassHash)
 	if err != nil {
-		log.Println(err)
-		return err
+		return fmt.Errorf("AddUser err: %s", err)
 	}
 
 	return nil
@@ -86,8 +84,7 @@ const getUser = `
 func (p postgreSQl) GetUser(email string) (models.User, error) {
 	rows, err := p.conn.Query(getUser, email)
 	if err != nil {
-		log.Println(err)
-		return models.User{}, err
+		return models.User{}, fmt.Errorf("GetUser err:%s", err)
 	}
 	defer rows.Close()
 
@@ -95,7 +92,7 @@ func (p postgreSQl) GetUser(email string) (models.User, error) {
 	for rows.Next() {
 		err := rows.Scan(&data.Email, &data.Id, &data.User, &data.PassHash)
 		if err != nil {
-			log.Println(err)
+			log.Error(err)
 			continue
 		}
 

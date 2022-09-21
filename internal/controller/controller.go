@@ -33,7 +33,7 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 		controller.db = dbModel
 	})
 
-	return controller, fmt.Errorf("GetControllerInstance err: %s", err)
+	return controller, err
 }
 
 func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error) {

@@ -16,7 +16,7 @@ type Handlers struct {
 }
 
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("cmd/data/index.html", "cmd/data/imgBlock.tmpl")
+	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/imgBlock.tmpl")
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
@@ -58,7 +58,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("cmd/data/index.html", "cmd/data/downloadFile.tmpl")
+	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/downloadFile.tmpl")
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return

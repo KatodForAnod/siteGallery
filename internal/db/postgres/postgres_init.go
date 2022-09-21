@@ -1,8 +1,8 @@
-package db
+package postgres
 
 import (
 	"KatodForAnod/siteGallery/internal/config"
-	"KatodForAnod/siteGallery/internal/model"
+	"KatodForAnod/siteGallery/internal/db"
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
@@ -13,7 +13,7 @@ type postgreSQl struct {
 	conn *sql.DB
 }
 
-func GetPostgresSQlConn(dbConfig config.Config) (model.Database, error) {
+func GetPostgresSQlConn(dbConfig config.Config) (db.Database, error) {
 	log.Println("Starting initialization postgres db...")
 	connStr := fmt.Sprintf(`host=%s port=%d user=%s password=%s dbname=%s sslmode=%s`,
 		dbConfig.DBConfig.Host, dbConfig.DBConfig.Port,

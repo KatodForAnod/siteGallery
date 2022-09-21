@@ -2,7 +2,7 @@ package view
 
 import (
 	"KatodForAnod/siteGallery/internal/controller"
-	"KatodForAnod/siteGallery/internal/model"
+	"KatodForAnod/siteGallery/internal/models"
 	"encoding/base64"
 	"fmt"
 	"html/template"
@@ -105,7 +105,7 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dataEncode := base64.StdEncoding.EncodeToString(buff)
-	newImage := model.ImgMetaData{
+	newImage := models.ImgMetaData{
 		FileName:   fileHeader.Filename,
 		Tags:       []string{},
 		Data:       template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),

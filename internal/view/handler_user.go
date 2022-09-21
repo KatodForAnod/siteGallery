@@ -1,7 +1,7 @@
 package view
 
 import (
-	"KatodForAnod/siteGallery/internal/model"
+	"KatodForAnod/siteGallery/internal/models"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"log"
@@ -57,7 +57,7 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := model.User{
+	user := models.User{
 		User:     username,
 		Email:    email,
 		PassHash: string(hashedPass),

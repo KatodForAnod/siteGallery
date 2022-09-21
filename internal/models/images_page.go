@@ -1,6 +1,8 @@
-package model
+package models
 
-import "html/template"
+import (
+	"html/template"
+)
 
 type ImagesPageBody struct {
 	ImagesArr []ImgMetaData

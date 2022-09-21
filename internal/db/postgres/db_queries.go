@@ -1,7 +1,7 @@
-package db
+package postgres
 
 import (
-	"KatodForAnod/siteGallery/internal/model"
+	"KatodForAnod/siteGallery/internal/models"
 	"errors"
 	"github.com/lib/pq"
 	"html/template"
@@ -13,7 +13,7 @@ const addImage = `
 	VALUES (DEFAULT,$1,$2)
 `
 
-func (p postgreSQl) AddImage(data model.ImgMetaData) error {
+func (p postgreSQl) AddImage(data models.ImgMetaData) error {
 	_, err := p.conn.Exec(addImage, string(data.Data), (*pq.StringArray)(&data.Tags))
 	if err != nil {
 		log.Println(err)
@@ -27,7 +27,7 @@ func (p postgreSQl) RemoveImage(id int64) error {
 	panic("implement me")
 }
 
-func (p postgreSQl) GetImage(id int64) (model.ImgMetaData, error) {
+func (p postgreSQl) GetImage(id int64) (models.ImgMetaData, error) {
 	panic("implement me")
 }
 
@@ -38,16 +38,16 @@ const getImages = `
 	LIMIT $2
 `
 
-func (p postgreSQl) GetImages(offSet, limit int64) ([]model.ImgMetaData, error) {
+func (p postgreSQl) GetImages(offSet, limit int64) ([]models.ImgMetaData, error) {
 	rows, err := p.conn.Query(getImages, offSet, limit)
 	if err != nil {
 		log.Println(err)
-		return []model.ImgMetaData{}, err
+		return []models.ImgMetaData{}, err
 	}
 	defer rows.Close()
 
-	imges := make([]model.ImgMetaData, 0, 10)
-	data := model.ImgMetaData{}
+	imges := make([]models.ImgMetaData, 0, 10)
+	data := models.ImgMetaData{}
 	for rows.Next() {
 		var fileBody string
 		err := rows.Scan(&data.Id, &fileBody, (*pq.StringArray)(&data.Tags))
@@ -67,7 +67,7 @@ const addUser = `
 	VALUES ($1, DEFAULT, $2, $3)
 `
 
-func (p postgreSQl) AddUser(user model.User) error {
+func (p postgreSQl) AddUser(user models.User) error {
 	_, err := p.conn.Exec(addUser, user.Email, user.User, user.PassHash)
 	if err != nil {
 		log.Println(err)
@@ -83,15 +83,15 @@ const getUser = `
 	WHERE email = $1
 `
 
-func (p postgreSQl) GetUser(email string) (model.User, error) {
+func (p postgreSQl) GetUser(email string) (models.User, error) {
 	rows, err := p.conn.Query(getUser, email)
 	if err != nil {
 		log.Println(err)
-		return model.User{}, err
+		return models.User{}, err
 	}
 	defer rows.Close()
 
-	data := model.User{}
+	data := models.User{}
 	for rows.Next() {
 		err := rows.Scan(&data.Email, &data.Id, &data.User, &data.PassHash)
 		if err != nil {

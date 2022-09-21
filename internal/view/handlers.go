@@ -18,7 +18,7 @@ type Handlers struct {
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/imgBlock.tmpl")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 
@@ -29,7 +29,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(idStr)
 	if err != nil || id < 1 {
-		http.Error(w, "server err", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
@@ -39,20 +39,20 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 	imagesArr, err := h.controller.GetImages(int64(offset), int64(limit))
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "server err", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
 	pageBody, err := h.controller.PrepareImagesPage(imagesArr, id, "/mainPg")
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "server err", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
 	err = tmpl.ExecuteTemplate(w, "MainPage", pageBody)
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 }
@@ -60,13 +60,13 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/downloadFile.tmpl")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 
 	err = tmpl.ExecuteTemplate(w, "MainPage", nil)
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 }
@@ -80,27 +80,26 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 
 	file, fileHeader, err := r.FormFile("photo")
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 
 	if fileHeader.Size > MAX_UPLOAD_SIZE {
-		http.Error(w,
-			"The uploaded file is too big. Please choose an file that's less than 1MB in size",
-			http.StatusInternalServerError)
+		h.ErrorHandling("The uploaded file is too big. Please choose an file that's less than 1MB in size",
+			http.StatusBadRequest, w)
 		return
 	}
 
 	buff := make([]byte, MAX_UPLOAD_SIZE)
 	_, err = file.Read(buff)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
 	contentType := fileHeader.Header.Get("Content-Type")
 	if contentType == "" {
-		http.Error(w, "", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 

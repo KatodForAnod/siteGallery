@@ -16,7 +16,7 @@ type LoginRegistrationPage struct {
 func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("internal/data/auth.html")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 
@@ -24,7 +24,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 }
@@ -32,7 +32,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("internal/data/auth.html")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 
@@ -40,7 +40,7 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
 	}
 }
@@ -53,7 +53,7 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
@@ -65,14 +65,14 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 
 	if err := h.controller.CreateUser(user); err != nil {
 		log.Println(err)
-		http.Error(w, "", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
 	token, err := CreateToken(email)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
@@ -90,25 +90,25 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 	user, err := h.controller.GetUser(email)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "invalid email or password", http.StatusUnauthorized)
+		h.ErrorHandling("invalid email or password", http.StatusUnauthorized, w)
 		return
 	}
 
 	if user.Email != email {
 		log.Println(err)
-		http.Error(w, "invalid email or password", http.StatusUnauthorized)
+		h.ErrorHandling("invalid email or password", http.StatusUnauthorized, w)
 		return
 	} else if err := bcrypt.CompareHashAndPassword([]byte(user.PassHash),
 		[]byte(password)); err != nil {
 		log.Println(err)
-		http.Error(w, "invalid email or password", http.StatusUnauthorized)
+		h.ErrorHandling("invalid email or password", http.StatusUnauthorized, w)
 		return
 	}
 
 	token, err := CreateToken(email)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "", http.StatusInternalServerError)
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
@@ -130,11 +130,11 @@ func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
 			if cookie.Name == "x-token" {
 				verifyToken, err := VerifyToken(cookie.Value)
 				if err != nil {
-					http.Error(w, "pls re-login", http.StatusUnauthorized)
+					h.ErrorHandling("pls re-login", http.StatusUnauthorized, w)
 					return
 				}
 				if !verifyToken.Valid {
-					http.Error(w, "pls re-login", http.StatusUnauthorized)
+					h.ErrorHandling("pls re-login", http.StatusUnauthorized, w)
 					return
 				}
 
@@ -143,7 +143,21 @@ func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		http.Error(w, "pls login", http.StatusUnauthorized)
+		h.ErrorHandling("pls login", http.StatusUnauthorized, w)
+		return
+	}
+}
+
+func (h *Handlers) ErrorHandling(errorMsg string, statusCode int, w http.ResponseWriter) {
+	tmpl, err := template.ParseFiles("internal/data/errorHandling.html")
+	if err != nil {
+		http.Error(w, err.Error(), statusCode)
+		return
+	}
+
+	err = tmpl.Execute(w, errorMsg)
+	if err != nil {
+		http.Error(w, err.Error(), statusCode)
 		return
 	}
 }

@@ -1,6 +1,6 @@
 package postgres
 
-import "log"
+import log "github.com/sirupsen/logrus"
 
 const createImgTable = `CREATE TABLE IF NOT EXISTS Img (
     id SERIAL PRIMARY KEY,

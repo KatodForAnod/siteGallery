@@ -2,9 +2,9 @@ package view
 
 import (
 	"KatodForAnod/siteGallery/internal/models"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
-	"log"
 	"net/http"
 )
 

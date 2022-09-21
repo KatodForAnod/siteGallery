@@ -5,8 +5,8 @@ import (
 	"KatodForAnod/siteGallery/internal/models"
 	"encoding/base64"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"html/template"
-	"log"
 	"net/http"
 	"strconv"
 )

@@ -4,7 +4,7 @@ import (
 	"KatodForAnod/siteGallery/internal/config"
 	"KatodForAnod/siteGallery/internal/controller"
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 

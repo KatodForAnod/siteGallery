@@ -6,8 +6,8 @@ import (
 	"KatodForAnod/siteGallery/internal/db/postgres"
 	"KatodForAnod/siteGallery/internal/models"
 	"errors"
+	log "github.com/sirupsen/logrus"
 	"html/template"
-	"log"
 	"strconv"
 	"sync"
 )

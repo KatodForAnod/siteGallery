@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"log"
+	log "github.com/sirupsen/logrus"
 )
 
 type postgreSQl struct {

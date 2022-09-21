@@ -4,8 +4,8 @@ import (
 	"KatodForAnod/siteGallery/internal/models"
 	"errors"
 	"github.com/lib/pq"
+	log "github.com/sirupsen/logrus"
 	"html/template"
-	"log"
 )
 
 const addImage = `

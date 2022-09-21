@@ -46,7 +46,7 @@ func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error
 	}
 
 	if len(arr) == 0 {
-		return []models.ImgMetaData{}, errors.New("no images")
+		return []models.ImgMetaData{}, nil
 	}
 
 	for len(arr) < int(limit) {

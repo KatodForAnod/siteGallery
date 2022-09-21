@@ -28,8 +28,11 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id, err := strconv.Atoi(idStr)
-	if err != nil || id < 1 {
+	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
+		return
+	} else if id < 1 {
+		h.ErrorHandling("wrong page", http.StatusInternalServerError, w)
 		return
 	}
 

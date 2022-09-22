@@ -14,7 +14,7 @@ type LoginRegistrationPage struct {
 }
 
 func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/data/auth.html")
+	tmpl, err := template.ParseFiles("internal/tmpls/auth.html")
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
@@ -30,7 +30,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/data/auth.html")
+	tmpl, err := template.ParseFiles("internal/tmpls/auth.html")
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
@@ -149,7 +149,7 @@ func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
 }
 
 func (h *Handlers) ErrorHandling(errorMsg string, statusCode int, w http.ResponseWriter) {
-	tmpl, err := template.ParseFiles("internal/data/errorHandling.html")
+	tmpl, err := template.ParseFiles("internal/tmpls/errorHandling.html")
 	if err != nil {
 		http.Error(w, err.Error(), statusCode)
 		return

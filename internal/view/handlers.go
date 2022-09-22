@@ -16,7 +16,7 @@ type Handlers struct {
 }
 
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/imgBlock.tmpl")
+	tmpl, err := template.ParseFiles("internal/tmpls/index.html", "internal/tmpls/imgBlock.tmpl")
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
@@ -36,7 +36,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	limit := 14
+	limit := 14 //TODO magic numbers?
 	offset := (id - 1) * limit
 
 	imagesArr, err := h.controller.GetImages(int64(offset), int64(limit))
@@ -61,7 +61,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/data/index.html", "internal/data/downloadFile.tmpl")
+	tmpl, err := template.ParseFiles("internal/tmpls/index.html", "internal/tmpls/downloadFile.tmpl")
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
@@ -110,7 +110,7 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 	newImage := models.ImgMetaData{
 		FileName:   fileHeader.Filename,
 		Tags:       []string{},
-		Data:       template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),
+		Data:       template.URL(fmt.Sprintf("tmpls:%s;base64,%s", contentType, dataEncode)),
 		LoadByUser: "",
 	}
 

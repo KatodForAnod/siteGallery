@@ -51,13 +51,13 @@ func TestController_CreateUser(t *testing.T) {
 func TestGetControllerInstance(t *testing.T) {
 }
 
-func TestController_GetImages(t *testing.T) {
+func TestController_GetImages_CheckReturnValue(t *testing.T) {
 	images, _ := testController.GetImages(1, 10)
 	assert.Equal(t, []models.ImgMetaData{}, images,
 		"if db doesnt have images func must return empty array")
 }
 
-func TestController_GetImages2(t *testing.T) {
+func TestController_GetImages_CheckArgs(t *testing.T) {
 	images, _ := testController.GetImages(0, 10)
 	expected := make([]models.ImgMetaData, 10)
 	assert.Equal(t, len(expected), len(images),
@@ -70,7 +70,7 @@ func TestController_GetUser(t *testing.T) {
 func TestController_LoadImage(t *testing.T) {
 }
 
-func TestController_PrepareImagesPage(t *testing.T) {
+func TestController_PrepareImagesPageErr(t *testing.T) {
 	_, err := controller.PrepareImagesPage([]models.ImgMetaData{}, -1, "")
 
 	if err == nil {
@@ -78,7 +78,7 @@ func TestController_PrepareImagesPage(t *testing.T) {
 	}
 }
 
-func TestController_PrepareImagesPage2(t *testing.T) {
+func TestController_PrepareImagesPage(t *testing.T) {
 	_, err := controller.PrepareImagesPage([]models.ImgMetaData{}, 1, "")
 	assert.Equal(t, nil, err)
 }

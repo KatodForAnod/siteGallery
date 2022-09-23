@@ -9,10 +9,6 @@ import (
 	"testing"
 )
 
-var (
-	testPostgres postgreSQl
-)
-
 func TestPostgreSQl_AddUser(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
@@ -26,6 +22,7 @@ func TestPostgreSQl_AddUser(t *testing.T) {
 		PassHash: "",
 	}
 
+	testPostgres := postgreSQl{}
 	testPostgres.conn = db
 	mock.ExpectExec("INSERT INTO users").WithArgs(testUser.Email, testUser.User, testUser.PassHash).
 		WillReturnResult(sqlmock.NewResult(0, 1))
@@ -54,6 +51,7 @@ func TestPostgreSQl_AddImage(t *testing.T) {
 		LoadByUser: "",
 	}
 
+	testPostgres := postgreSQl{}
 	testPostgres.conn = db
 	mock.ExpectExec("INSERT INTO img").WithArgs(string(testImg.Data), (*pq.StringArray)(&testImg.Tags)).
 		WillReturnResult(sqlmock.NewResult(0, 1))
@@ -82,6 +80,7 @@ func TestPostgreSQl_GetImages(t *testing.T) {
 		LoadByUser: "",
 	}
 
+	testPostgres := postgreSQl{}
 	testPostgres.conn = db
 	rows := sqlmock.NewRows([]string{"id", "img", "tags"}).
 		AddRow(testImage.Id, testImage.Data, (*pq.StringArray)(&testImage.Tags))
@@ -114,6 +113,7 @@ func TestPostgreSQl_GetUser(t *testing.T) {
 		PassHash: "",
 	}
 
+	testPostgres := postgreSQl{}
 	testPostgres.conn = db
 	rows := sqlmock.NewRows([]string{"email", "id", "name", "password"}).
 		AddRow(testUser.Email, testUser.Id, testUser.User, "")
@@ -135,6 +135,7 @@ func TestPostgreSQl_GetUserErr(t *testing.T) {
 	}
 	defer db.Close()
 
+	testPostgres := postgreSQl{}
 	testPostgres.conn = db
 	mock.ExpectQuery("SELECT email, id, name, password FROM users WHERE email = ").
 		WithArgs("").WillReturnError(fmt.Errorf("user not found"))

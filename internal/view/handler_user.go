@@ -15,6 +15,9 @@ var loginRegistrationImage string
 //go:embed  images/plusImage
 var plusImage string
 
+//go:embed  images/mainPageBackgroundImage
+var mainPageBackgroundImage string
+
 type LoginRegistrationPage struct {
 	ActionLink string
 	ActionName string

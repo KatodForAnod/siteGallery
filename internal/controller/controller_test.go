@@ -2,64 +2,65 @@ package controller
 
 import (
 	"KatodForAnod/siteGallery/internal/models"
+	"fmt"
+	"github.com/golang/mock/gomock"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-var testController = Controller{db: database}
-var database fakeDataBase
-
 func init() {
 	log.SetLevel(log.ErrorLevel)
 }
 
-type fakeDataBase struct{}
-
-func (d fakeDataBase) AddImage(data models.ImgMetaData) error {
-	return nil
-}
-
-func (d fakeDataBase) RemoveImage(id int64) error {
-	return nil
-}
-
-func (d fakeDataBase) GetImage(id int64) (models.ImgMetaData, error) {
-	return models.ImgMetaData{}, nil
-}
-
-func (d fakeDataBase) GetImages(offSet, limit int64) ([]models.ImgMetaData, error) {
-	if offSet >= 1 {
-		return []models.ImgMetaData{}, nil
-	}
-
-	return []models.ImgMetaData{models.ImgMetaData{}}, nil
-}
-
-func (d fakeDataBase) AddUser(user models.User) error {
-	return nil
-}
-
-func (d fakeDataBase) GetUser(email string) (models.User, error) {
-	return models.User{}, nil
-}
-
 func TestController_CreateUser(t *testing.T) {
-	assert.Equal(t, nil, testController.CreateUser(models.User{}))
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	testUser := models.User{}
+
+	mockDB := NewMockDatabase(ctrl)
+	mockDB.EXPECT().AddUser(testUser).Return(nil)
+	testController := Controller{}
+	testController.db = mockDB
+
+	assert.Equal(t, nil, testController.CreateUser(testUser),
+		"in that case controller must return nil")
 }
 
 func TestGetControllerInstance(t *testing.T) {
 }
 
 func TestController_GetImages_CheckReturnValue(t *testing.T) {
-	images, _ := testController.GetImages(1, 10)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	mockDB := NewMockDatabase(ctrl)
+	mockDB.EXPECT().GetImages(int64(1), int64(10)).Return([]models.ImgMetaData{}, nil)
+	testController := Controller{}
+	testController.db = mockDB
+
+	images, err := testController.GetImages(1, 10)
+	assert.Equal(t, nil, err,
+		fmt.Sprintf("error was not expected while GetImages: %s", err))
 	assert.Equal(t, []models.ImgMetaData{}, images,
 		"if db doesnt have images func must return empty array")
 }
 
 func TestController_GetImages_CheckArgs(t *testing.T) {
-	images, _ := testController.GetImages(0, 10)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
 	expected := make([]models.ImgMetaData, 10)
+	mockDB := NewMockDatabase(ctrl)
+	mockDB.EXPECT().GetImages(int64(0), int64(10)).Return(expected, nil)
+
+	testController := Controller{}
+	testController.db = mockDB
+
+	images, err := testController.GetImages(0, 10)
+	assert.Equal(t, nil, err,
+		fmt.Sprintf("error was not expected while GetImages: %s", err))
 	assert.Equal(t, len(expected), len(images),
 		"func must return len of array == limit-offset")
 }
@@ -72,7 +73,6 @@ func TestController_LoadImage(t *testing.T) {
 
 func TestController_PrepareImagesPageErr(t *testing.T) {
 	_, err := controller.PrepareImagesPage([]models.ImgMetaData{}, -1, "")
-
 	if err == nil {
 		t.Error("func must return error with page id == -1")
 	}
@@ -80,5 +80,6 @@ func TestController_PrepareImagesPageErr(t *testing.T) {
 
 func TestController_PrepareImagesPage(t *testing.T) {
 	_, err := controller.PrepareImagesPage([]models.ImgMetaData{}, 1, "")
-	assert.Equal(t, nil, err)
+	assert.Equal(t, nil, err,
+		fmt.Sprintf("error was not expected while GetImages: %s", err))
 }

@@ -11,3 +11,10 @@ type ImagesPageBody struct {
 	ImagePlus       template.URL
 	ImageBackground template.URL
 }
+
+type LoginRegistrationPage struct {
+	ActionLink string
+	ActionName string
+
+	ImageBackground template.URL
+}

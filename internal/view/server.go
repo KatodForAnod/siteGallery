@@ -3,10 +3,20 @@ package view
 import (
 	"KatodForAnod/siteGallery/internal/config"
 	"KatodForAnod/siteGallery/internal/controller"
+	_ "embed"
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
+
+//go:embed  images/loginRegistrationImage
+var loginRegistrationImage string
+
+//go:embed  images/plusImage
+var plusImage string
+
+//go:embed  images/mainPageBackgroundImage
+var mainPageBackgroundImage string
 
 func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {
 	addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port

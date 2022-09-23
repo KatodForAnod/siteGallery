@@ -31,11 +31,11 @@ func TestPostgreSQl_AddUser(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(0, 1))
 
 	if err = testPostgres.AddUser(testUser); err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+		t.Fatalf("error was not expected while updating stats: %s", err)
 	}
 
 	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
+		t.Fatalf("there were unfulfilled expectations: %s", err)
 	}
 }
 
@@ -59,11 +59,11 @@ func TestPostgreSQl_AddImage(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(0, 1))
 
 	if err = testPostgres.AddImage(testImg); err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+		t.Fatalf("error was not expected while updating stats: %s", err)
 	}
 
 	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
+		t.Fatalf("there were unfulfilled expectations: %s", err)
 	}
 }
 
@@ -90,11 +90,11 @@ func TestPostgreSQl_GetImages(t *testing.T) {
 
 	images, err := testPostgres.GetImages(0, 10)
 	if err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+		t.Fatalf("error was not expected while updating stats: %s", err)
 	}
 
 	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
+		t.Fatalf("there were unfulfilled expectations: %s", err)
 	}
 
 	assert.Equal(t, []models.ImgMetaData{testImage}, images, "returned array isnt correct")
@@ -122,7 +122,7 @@ func TestPostgreSQl_GetUser(t *testing.T) {
 
 	userResp, err := testPostgres.GetUser(testUser.Email)
 	if err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+		t.Fatalf("error was not expected while updating stats: %s", err)
 	}
 
 	assert.Equal(t, testUser, userResp, "returned struct not correct")
@@ -140,10 +140,10 @@ func TestPostgreSQl_GetUserErr(t *testing.T) {
 		WithArgs("").WillReturnError(fmt.Errorf("user not found"))
 
 	if _, err = testPostgres.GetUser(""); err == nil {
-		t.Errorf("error was expected while updating stats: %s", err)
+		t.Fatalf("error was expected while updating stats: %s", err)
 	}
 
 	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
+		t.Fatalf("there were unfulfilled expectations: %s", err)
 	}
 }

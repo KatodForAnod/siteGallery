@@ -53,6 +53,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	pageBody.ImageBackground = template.URL(plusImage)
 	err = tmpl.ExecuteTemplate(w, "MainPage", pageBody)
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)

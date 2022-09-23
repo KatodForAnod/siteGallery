@@ -12,6 +12,9 @@ import (
 //go:embed  images/loginRegistrationImage
 var loginRegistrationImage string
 
+//go:embed  images/plusImage
+var plusImage string
+
 type LoginRegistrationPage struct {
 	ActionLink string
 	ActionName string

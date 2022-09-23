@@ -2,15 +2,21 @@ package view
 
 import (
 	"KatodForAnod/siteGallery/internal/models"
+	_ "embed"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
 	"net/http"
 )
 
+//go:embed  images/loginRegistrationImage
+var s string
+
 type LoginRegistrationPage struct {
 	ActionLink string
 	ActionName string
+
+	ImageBackground template.URL
 }
 
 func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +26,7 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти"}
+	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти", ImageBackground: template.URL(s)}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -36,7 +42,8 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/registration", ActionName: "Зарегистрироваться"}
+	f := LoginRegistrationPage{ActionLink: "/registration",
+		ActionName: "Зарегистрироваться", ImageBackground: template.URL(s)}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {

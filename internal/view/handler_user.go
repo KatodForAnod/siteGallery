@@ -10,7 +10,7 @@ import (
 )
 
 //go:embed  images/loginRegistrationImage
-var s string
+var loginRegistrationImage string
 
 type LoginRegistrationPage struct {
 	ActionLink string
@@ -26,7 +26,8 @@ func (h *Handlers) GetLoginPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти", ImageBackground: template.URL(s)}
+	f := LoginRegistrationPage{ActionLink: "/login", ActionName: "Войти",
+		ImageBackground: template.URL(loginRegistrationImage)}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {
@@ -43,7 +44,7 @@ func (h *Handlers) GetRegistrationPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	f := LoginRegistrationPage{ActionLink: "/registration",
-		ActionName: "Зарегистрироваться", ImageBackground: template.URL(s)}
+		ActionName: "Зарегистрироваться", ImageBackground: template.URL(loginRegistrationImage)}
 
 	err = tmpl.Execute(w, f)
 	if err != nil {

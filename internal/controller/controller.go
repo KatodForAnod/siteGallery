@@ -28,6 +28,7 @@ func GetControllerInstance(config config.Config) (CommonController, error) {
 		var dbModel db.Database
 		dbModel, err = postgres.GetPostgresSQlConn(config)
 		if err != nil {
+			log.Errorln(err)
 			return
 		}
 		controller.db = dbModel

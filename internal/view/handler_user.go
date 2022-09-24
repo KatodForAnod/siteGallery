@@ -123,21 +123,9 @@ func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) MiddleWare(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		for _, cookie := range r.Cookies() {
-			if cookie.Name == "x-token" {
-				verifyToken, err := VerifyToken(cookie.Value)
-				if err != nil {
-					h.ErrorHandling("pls re-login", http.StatusUnauthorized, w)
-					return
-				}
-				if !verifyToken.Valid {
-					h.ErrorHandling("pls re-login", http.StatusUnauthorized, w)
-					return
-				}
-
-				f(w, r)
-				return
-			}
+		if isLogin := h.CheckAuth(r); isLogin {
+			f(w, r)
+			return
 		}
 
 		h.ErrorHandling("pls login", http.StatusUnauthorized, w)
@@ -157,4 +145,23 @@ func (h *Handlers) ErrorHandling(errorMsg string, statusCode int, w http.Respons
 		http.Error(w, err.Error(), statusCode)
 		return
 	}
+}
+
+// CheckAuth returns true if user was login, returns false if user was unlogin
+func (h *Handlers) CheckAuth(r *http.Request) (isLogin bool) {
+	for _, cookie := range r.Cookies() {
+		if cookie.Name == "x-token" {
+			verifyToken, err := VerifyToken(cookie.Value)
+			if err != nil {
+				log.Errorln(err)
+				return false
+			} else if !verifyToken.Valid {
+				return false
+			}
+
+			return true
+		}
+	}
+
+	return false
 }

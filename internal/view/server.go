@@ -18,7 +18,7 @@ var plusImage string
 //go:embed  images/mainPageBackgroundImage
 var mainPageBackgroundImage string
 
-func StartHttpServer(loadedConf config.Config, controller controller.Controller) error {
+func StartHttpServer(loadedConf config.Config, controller controller.CommonController) error {
 	addr := loadedConf.SvConfig.Host + ":" + loadedConf.SvConfig.Port
 	fmt.Println("Server is listening... ", addr)
 

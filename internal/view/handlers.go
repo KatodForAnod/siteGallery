@@ -12,7 +12,7 @@ import (
 )
 
 type Handlers struct {
-	controller controller.Controller
+	controller controller.CommonController
 }
 
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {

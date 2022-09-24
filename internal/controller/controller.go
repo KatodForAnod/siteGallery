@@ -22,7 +22,7 @@ type Controller struct {
 	db db.Database
 }
 
-func GetControllerInstance(config config.Config) (Controller, error) {
+func GetControllerInstance(config config.Config) (CommonController, error) {
 	var err error
 	sc.Do(func() {
 		var dbModel db.Database
@@ -33,7 +33,7 @@ func GetControllerInstance(config config.Config) (Controller, error) {
 		controller.db = dbModel
 	})
 
-	return controller, err
+	return &controller, err
 }
 
 func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error) {

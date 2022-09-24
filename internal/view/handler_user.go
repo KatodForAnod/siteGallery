@@ -121,7 +121,7 @@ func (h *Handlers) Logout(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
 
-func (h *Handlers) CheckAuth(f http.HandlerFunc) http.HandlerFunc {
+func (h *Handlers) MiddleWare(f http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		for _, cookie := range r.Cookies() {
 			if cookie.Name == "x-token" {

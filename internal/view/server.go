@@ -26,8 +26,8 @@ func StartHttpServer(loadedConf config.Config, controller controller.CommonContr
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/mainPg", handlers.GetImagesPage)
-	mux.HandleFunc("/loadImg", handlers.CheckAuth(handlers.LoadImagePageGet))
-	mux.HandleFunc("/postImage", handlers.CheckAuth(handlers.LoadImagePagePost))
+	mux.HandleFunc("/loadImg", handlers.MiddleWare(handlers.LoadImagePageGet))
+	mux.HandleFunc("/postImage", handlers.MiddleWare(handlers.LoadImagePagePost))
 	mux.HandleFunc("/registration", handlers.Registration)
 	mux.HandleFunc("/login", handlers.Login)
 	mux.HandleFunc("/logout", handlers.Logout)

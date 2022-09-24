@@ -16,7 +16,17 @@ type Handlers struct {
 }
 
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/tmpls/index.html", "internal/tmpls/imgBlock.html")
+	files := []string{
+		"internal/tmpls/index.html",
+		"internal/tmpls/imgBlock.html",
+	}
+	if h.CheckAuth(r) {
+		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")
+	} else {
+		files = append(files, "internal/tmpls/indexHeaderLogin.html")
+	}
+
+	tmpl, err := template.ParseFiles(files...)
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return
@@ -64,7 +74,18 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("internal/tmpls/index.html", "internal/tmpls/downloadFile.html")
+	// TODO fix background image disappear
+	files := []string{
+		"internal/tmpls/index.html",
+		"internal/tmpls/downloadFile.html",
+	}
+	if h.CheckAuth(r) {
+		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")
+	} else {
+		files = append(files, "internal/tmpls/indexHeaderLogin.html")
+	}
+
+	tmpl, err := template.ParseFiles(files...)
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return

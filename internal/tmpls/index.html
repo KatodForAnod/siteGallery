@@ -41,7 +41,7 @@
             display: inline;
         }
 
-        .mainMenu {
+        #navbar a {
             color: #D7E6F3;
             text-shadow: none;
             text-decoration: none;
@@ -63,9 +63,10 @@
             padding: 10px;
             height: 900px;
             background: #D7E6F3;
-            display: flex; // FlexBox
-            align-items: center; // выравнивает по вертикали
-            justify-content: center; //выравнивает по горизонтали
+            display: flex;
+        / / FlexBox align-items: center;
+        / / выравнивает по вертикали justify-content: center;
+        / / выравнивает по горизонтали
         }
 
         .bottomTextAbout {
@@ -112,10 +113,10 @@
     <div class="uppImage">
         <div>
             <ul id="navbar">
-                <li><a class="mainMenu" href="/mainPg?id=1">Главная</a></li>
-                <li><a class="mainMenu" href="#">Новости</a></li>
-                <li><a class="mainMenu" href="/reg">Зарегистрироваться</a></li>
-                <li><a class="mainMenu" href="/log">Войти</a></li>
+                <li><a href="/mainPg?id=1">Главная</a></li>
+                <li><a href="#">Новости</a></li>
+                <li><a href="/reg">Зарегистрироваться</a></li>
+                <li><a href="/log">Войти</a></li>
             </ul>
         </div>
     </div>

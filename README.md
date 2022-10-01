@@ -5,7 +5,7 @@ Main tasks:
 2. loading images - done
 4. caching html pages - not done
 5. tagging images - not done
-6. unit-tests - not done
+6. unit-tests - done
 7. indexing db tables for fast searching tagged images - not done
 8. module recently watched - not done
 9. module recommendation by users history - not done

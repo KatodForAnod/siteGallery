@@ -144,6 +144,11 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 		UserId:   userId,
 	}
 
-	_ = h.controller.LoadImage(newImage)
+	err = h.controller.LoadImage(newImage)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
+		return
+	}
+
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }

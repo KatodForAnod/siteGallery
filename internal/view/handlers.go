@@ -140,7 +140,7 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 	newImage := models.ImgMetaData{
 		FileName: fileHeader.Filename,
 		Tags:     []string{},
-		Data:     template.URL(fmt.Sprintf("tmpls:%s;base64,%s", contentType, dataEncode)),
+		Data:     template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),
 		UserId:   userId,
 	}
 

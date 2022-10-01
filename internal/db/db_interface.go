@@ -5,6 +5,7 @@ import "KatodForAnod/siteGallery/internal/models"
 type Database interface {
 	DatabaseImg
 	DatabaseUser
+	DatabaseUserAuth
 }
 
 type DatabaseImg interface {
@@ -17,4 +18,7 @@ type DatabaseImg interface {
 type DatabaseUser interface {
 	AddUser(user models.User) error
 	GetUser(email string) (models.User, error)
+}
+
+type DatabaseUserAuth interface {
 }

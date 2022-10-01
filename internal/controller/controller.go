@@ -90,6 +90,10 @@ func (c *Controller) CreateUser(user models.User) error {
 	return c.db.AddUser(user)
 }
 
+func (c *Controller) CreateUserRetId(user models.User) (int64, error) {
+	return c.db.AddUserRetId(user)
+}
+
 func (c *Controller) GetUser(email string) (models.User, error) {
 	//log.Println("Get user")
 	return c.db.GetUser(email)

@@ -4,6 +4,7 @@ import "KatodForAnod/siteGallery/internal/models"
 
 type UserController interface {
 	CreateUser(user models.User) error
+	CreateUserRetId(user models.User) (int64, error)
 	GetUser(email string) (models.User, error)
 }
 

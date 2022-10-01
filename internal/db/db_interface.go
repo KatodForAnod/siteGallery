@@ -17,6 +17,7 @@ type DatabaseImg interface {
 
 type DatabaseUser interface {
 	AddUser(user models.User) error
+	AddUserRetId(user models.User) (int64, error)
 	GetUser(email string) (models.User, error)
 }
 

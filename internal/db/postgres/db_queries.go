@@ -77,14 +77,24 @@ func (p postgreSQl) AddUser(user models.User) error {
 	return nil
 }
 
+const addUserRetId = `
+	INSERT INTO users
+	(email, id, name, password)
+	VALUES ($1, DEFAULT, $2, $3)
+	RETURNING id
+`
+
 func (p postgreSQl) AddUserRetId(user models.User) (int64, error) {
-	res, err := p.conn.Exec(addUser, user.Email, user.User, user.PassHash)
+	rows, err := p.conn.Query(addUserRetId, user.Email, user.User, user.PassHash)
 	if err != nil {
 		return 0, fmt.Errorf("AddUserRetId err: %s", err)
 	}
 
-	id, err := res.LastInsertId()
-	if err != nil {
+	if !rows.Next() {
+		return 0, fmt.Errorf("AddUserRetId err")
+	}
+	var id int64
+	if err := rows.Scan(&id); err != nil {
 		return 0, fmt.Errorf("AddUserRetId err: %s", err)
 	}
 

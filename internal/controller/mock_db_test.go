@@ -17,6 +17,10 @@ type MockDatabase struct {
 	recorder *MockDatabaseMockRecorder
 }
 
+func (m *MockDatabase) AddUserRetId(user models.User) (int64, error) {
+	panic("implement me")
+}
+
 // MockDatabaseMockRecorder is the mock recorder for MockDatabase.
 type MockDatabaseMockRecorder struct {
 	mock *MockDatabase

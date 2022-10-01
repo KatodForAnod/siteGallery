@@ -12,7 +12,7 @@ import (
 const addImage = `
 	INSERT INTO img
 	(id, user_id, img, tags)
-	VALUES (DEFAULT,$1,$2)
+	VALUES (DEFAULT,$1,$2,$3)
 `
 
 func (p postgreSQl) AddImage(data models.ImgMetaData) error {

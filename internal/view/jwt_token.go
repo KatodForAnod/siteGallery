@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-func CreateToken(email string) (string, error) {
+func CreateToken(userId int64) (string, error) {
 	var err error
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
-	atClaims["email"] = email // not save
+	atClaims["user_id"] = userId
 	atClaims["exp"] = time.Now().Add(time.Minute * 1).Unix()
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)

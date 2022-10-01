@@ -60,13 +60,14 @@ func (h *Handlers) Registration(w http.ResponseWriter, r *http.Request) {
 		PassHash: string(hashedPass),
 	}
 
-	if err := h.controller.CreateUser(user); err != nil {
+	userId, err := h.controller.CreateUserRetId(user)
+	if err != nil {
 		log.Println(err)
 		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	}
 
-	token, err := CreateToken(email)
+	token, err := CreateToken(userId)
 	if err != nil {
 		log.Println(err)
 		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
@@ -102,7 +103,7 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := CreateToken(email)
+	token, err := CreateToken(user.Id)
 	if err != nil {
 		log.Println(err)
 		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)

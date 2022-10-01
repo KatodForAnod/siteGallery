@@ -23,7 +23,7 @@ func CreateToken(userId int64) (string, error) {
 	return token, nil
 }
 
-func VerifyToken(tokenStr string) (*jwt.Token, error) {
+func VerifyToken(tokenStr string) (*jwt.Token, error) { // TODO func name verify?? but it only extract token
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -35,4 +35,14 @@ func VerifyToken(tokenStr string) (*jwt.Token, error) {
 	}
 
 	return token, nil
+}
+
+func GetUserIdFromToken(token *jwt.Token) (int64, error) {
+	claims := token.Claims.(jwt.MapClaims)
+	userId, ok := claims["user_id"].(int64)
+	if !ok {
+		return 0, fmt.Errorf("wrong claims data")
+	}
+
+	return userId, nil
 }

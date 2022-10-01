@@ -2,6 +2,7 @@ package view
 
 import (
 	"KatodForAnod/siteGallery/internal/models"
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"html/template"
@@ -165,4 +166,24 @@ func (h *Handlers) CheckAuth(r *http.Request) (isLogin bool) {
 	}
 
 	return false
+}
+
+func (h *Handlers) GetUserId(r *http.Request) (int64, error) {
+	for _, cookie := range r.Cookies() {
+		if cookie.Name == "x-token" {
+			token, err := VerifyToken(cookie.Value)
+			if err != nil {
+				return 0, err
+			}
+
+			userID, err := GetUserIdFromToken(token)
+			if err != nil {
+				return 0, err
+			}
+
+			return userID, nil
+		}
+	}
+
+	return 0, fmt.Errorf("not found access token")
 }

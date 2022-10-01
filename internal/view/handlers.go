@@ -130,12 +130,18 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userId, err := h.GetUserId(r)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
+		return
+	}
+
 	dataEncode := base64.StdEncoding.EncodeToString(buff)
 	newImage := models.ImgMetaData{
-		FileName:   fileHeader.Filename,
-		Tags:       []string{},
-		Data:       template.URL(fmt.Sprintf("tmpls:%s;base64,%s", contentType, dataEncode)),
-		LoadByUser: "",
+		FileName: fileHeader.Filename,
+		Tags:     []string{},
+		Data:     template.URL(fmt.Sprintf("tmpls:%s;base64,%s", contentType, dataEncode)),
+		UserId:   userId,
 	}
 
 	_ = h.controller.LoadImage(newImage)

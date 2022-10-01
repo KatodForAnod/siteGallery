@@ -7,6 +7,7 @@ type ImgMetaData struct {
 	FileName   string
 	Tags       []string
 	Data       template.URL
+	UserId     int64
 	LoadByUser string
 }
 

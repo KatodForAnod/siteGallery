@@ -11,11 +11,12 @@ import (
 
 const addImage = `
 	INSERT INTO img
+	(id, user_id, img, tags)
 	VALUES (DEFAULT,$1,$2)
 `
 
 func (p postgreSQl) AddImage(data models.ImgMetaData) error {
-	_, err := p.conn.Exec(addImage, string(data.Data), (*pq.StringArray)(&data.Tags))
+	_, err := p.conn.Exec(addImage, data.UserId, string(data.Data), (*pq.StringArray)(&data.Tags))
 	if err != nil {
 		return fmt.Errorf("AddImage err:%s", err)
 	}
@@ -63,6 +64,7 @@ func (p postgreSQl) GetImages(offSet, limit int64) ([]models.ImgMetaData, error)
 
 const addUser = `
 	INSERT INTO users
+	(email, id, name, password)
 	VALUES ($1, DEFAULT, $2, $3)
 `
 

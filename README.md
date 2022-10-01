@@ -9,6 +9,8 @@ Main tasks:
 7. indexing db tables for fast searching tagged images - not done
 8. module recently watched - not done
 9. module recommendation by users history - not done
+10. parallelize download page(later for module pages) - not done
+11. full rebuild front-end part with javascript and react - not done
 
 ## How to run?
 1. ### Install docker and run it

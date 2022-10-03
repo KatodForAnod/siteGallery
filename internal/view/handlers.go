@@ -162,4 +162,39 @@ func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
 		h.ErrorHandling("wrong id image", http.StatusInternalServerError, w)
 	}
 
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
+		return
+	} else if id < 1 {
+		h.ErrorHandling("wrong page", http.StatusInternalServerError, w)
+		return
+	}
+
+	image, err := h.controller.GetImage(id)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
+	}
+
+	files := []string{
+		"internal/tmpls/index.html",
+		"internal/tmpls/imageView.html",
+	}
+	if h.CheckAuth(r) {
+		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")
+	} else {
+		files = append(files, "internal/tmpls/indexHeaderLogin.html")
+	}
+
+	tmpl, err := template.ParseFiles(files...)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
+		return
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", image)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
+		return
+	}
 }

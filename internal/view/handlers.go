@@ -155,3 +155,11 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
 }
+
+func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
+	idStr := r.URL.Query().Get("id")
+	if idStr == "" {
+		h.ErrorHandling("wrong id image", http.StatusInternalServerError, w)
+	}
+
+}

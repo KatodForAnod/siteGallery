@@ -35,6 +35,8 @@ func StartHttpServer(loadedConf config.Config, controller controller.CommonContr
 	mux.HandleFunc("/log", handlers.GetLoginPage)
 	mux.HandleFunc("/reg", handlers.GetRegistrationPage)
 
+	mux.HandleFunc("/viewImg", handlers.ViewImageHandler)
+
 	err := http.ListenAndServe(addr, mux)
 	log.Fatal(err)
 	return nil

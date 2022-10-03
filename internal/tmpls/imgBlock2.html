@@ -1,0 +1,17 @@
+{{define "imgBlock"}}
+<div class="mainBlock">
+    <div class="thumb">
+        <a href="/loadImg"><img alt="Blank" border=1 src="{{.ImagePlus}}"/></a>
+        {{range .ImagesArr}}
+        <a href="/viewimg/?id={{.Id}}"><img alt="Blank" src={{.Data}}/></a>
+        {{end}}
+    </div>
+
+    <div class="mainBlockControl">
+        <ul class="prevCurrNext">
+            <li><a href={{.PagePrev}}>Prev</a></li>
+            <li><a href={{.PageNext}}>Next</a></li>
+        </ul>
+    </div>
+</div>
+{{end}}

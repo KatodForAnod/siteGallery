@@ -28,8 +28,32 @@ func (p postgreSQl) RemoveImage(id int64) error {
 	panic("implement me")
 }
 
+const getImage = `
+	SELECT id, img.img, tags
+	FROM img
+	WHERE id = $1
+`
+
 func (p postgreSQl) GetImage(id int64) (models.ImgMetaData, error) {
-	panic("implement me")
+	rows, err := p.conn.Query(getImage, id)
+	if err != nil {
+		return models.ImgMetaData{}, fmt.Errorf("GetImage err: %s", err)
+	}
+	defer rows.Close()
+
+	img := models.ImgMetaData{}
+	if rows.Next() {
+		var fileBody string
+		err := rows.Scan(&img.Id, &fileBody, (*pq.StringArray)(&img.Tags))
+		if err != nil {
+			log.Error(err)
+			return models.ImgMetaData{}, fmt.Errorf("GetImage err: %v", err)
+		}
+		img.Data = template.URL(fileBody)
+		return img, nil
+	} else {
+		return models.ImgMetaData{}, fmt.Errorf("image not found")
+	}
 }
 
 const getImages = `

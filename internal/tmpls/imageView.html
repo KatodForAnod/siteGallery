@@ -1,0 +1,10 @@
+{{define "imgBlock"}}
+<div class="mainBlock2">
+    <div class="thumb">
+        <img alt="Blank" src="{{.Data}}"/>
+        {{range .Tags}}
+        <img . alt="Blank" src={{ }}/>
+        {{end}}
+    </div>
+</div>
+{{end}}

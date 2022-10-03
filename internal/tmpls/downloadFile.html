@@ -1,9 +1,12 @@
 {{define "imgBlock"}}
 <div class="mainBlock2">
-   <form enctype="multipart/form-data" method="post" action="/postImage" class="downloadBlock">
-   <p>Загрузите ваши фотографии на сервер</p>
-   <p><input type="file" name="photo" multiple accept="image/*,image/jpeg">
-   <input type="submit" value="Отправить"></p>
-  </form>
+    <form action="/postImage" class="downloadBlock" enctype="multipart/form-data" method="post">
+        <p>Загрузите ваши фотографии на сервер</p>
+        <p><input accept="image/*,image/jpeg" multiple name="photo" type="file"></p>
+        <input name="tag1" placeholder="Введите Ваш tag 1" required type="text">
+        <input name="tag2" placeholder="Введите Ваш tag 2" required type="text">
+        <input name="tag3" placeholder="Введите Ваш tag 3" required type="text">
+        <p><input type="submit" value="Отправить"></p>
+    </form>
 </div>
 {{end}}

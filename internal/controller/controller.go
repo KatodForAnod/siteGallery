@@ -56,6 +56,10 @@ func (c *Controller) GetImages(offset, limit int64) ([]models.ImgMetaData, error
 	return arr, nil
 }
 
+func (c *Controller) GetImage(id int64) (models.ImgMetaData, error) {
+	return c.db.GetImage(id)
+}
+
 func (c *Controller) PrepareImagesPage(imagesArr []models.ImgMetaData,
 	id int, urlBase string) (models.ImagesPageBody, error) {
 	if id < 1 {

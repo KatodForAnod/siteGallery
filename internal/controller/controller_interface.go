@@ -13,6 +13,7 @@ type ImageController interface {
 	LoadImage(data models.ImgMetaData) error
 	PrepareImagesPage(imagesArr []models.ImgMetaData,
 		id int, urlBase string) (models.ImagesPageBody, error)
+	GetImage(id int64) (models.ImgMetaData, error)
 }
 
 type CommonController interface {

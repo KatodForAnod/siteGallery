@@ -136,10 +136,13 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tag1 := r.FormValue("tag1")
+	tag2 := r.FormValue("tag2")
+	tag3 := r.FormValue("tag3")
 	dataEncode := base64.StdEncoding.EncodeToString(buff)
 	newImage := models.ImgMetaData{
 		FileName: fileHeader.Filename,
-		Tags:     []string{},
+		Tags:     []string{tag1, tag2, tag3},
 		Data:     template.URL(fmt.Sprintf("data:%s;base64,%s", contentType, dataEncode)),
 		UserId:   userId,
 	}

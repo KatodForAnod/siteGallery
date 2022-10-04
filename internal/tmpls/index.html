@@ -6,16 +6,22 @@
     <title>siteGallery</title>
     <style>
         body {
-            background: url('{{.ImageBackground}}') center/100% repeat; /* Параметры фона */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            margin: 0;
+            position: absolute;
+            background: #D7E6F3;
+
+            left: -25px;
+            right: -25px;
+            top: -25px;
+            padding: 3%;
+            box-shadow: inset 0 0 0 3000px rgba(150, 150, 150, 0.192);
         }
 
         .mainDivBlock {
             background: #ffffff;
             width: 80%;
             margin: 1% auto;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Параметры тени */
         }
 
         .headerBlockIndex {
@@ -23,6 +29,8 @@
             background: #5B4176;
             font-size: large;
             height: 20%;
+
+            font-family: Arial, sans-serif;
         }
 
         .headerBlockIndex p {
@@ -79,12 +87,16 @@
             margin: 5px;
             width: 225px;
             height: 225px;
-            background: #f0f0f0;
-            border-radius: 5px;
+            border-radius: 30px;
+
+            transform: scale(1, 1);
+            transition-timing-function: ease-out;
+            transition-duration: 550ms;
         }
 
         .imagesArray img:hover {
-            background: rgba(91, 65, 118, 0.4);
+            -webkit-transition: transform 0.5s ease-in-out;
+            transform: scale(1.1);
         }
 
         .imagesArray {

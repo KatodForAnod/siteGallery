@@ -12,6 +12,11 @@ type ImagesPageBody struct {
 	ImageBackground template.URL
 }
 
+type ViewImagePage struct {
+	Image           ImgMetaData
+	ImageBackground template.URL
+}
+
 type LoginRegistrationPage struct {
 	ActionLink string
 	ActionName string

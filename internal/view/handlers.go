@@ -76,7 +76,7 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"internal/tmpls/index.html",
-		"internal/tmpls/downloadFile.html",
+		"internal/tmpls/loadFile.html",
 	}
 	if h.CheckAuth(r) {
 		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")

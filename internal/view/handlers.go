@@ -177,7 +177,13 @@ func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	files := []string{
+		"internal/tmpls/index.html",
 		"internal/tmpls/imageView.html",
+	}
+	if h.CheckAuth(r) {
+		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")
+	} else {
+		files = append(files, "internal/tmpls/indexHeaderLogin.html")
 	}
 
 	tmpl, err := template.ParseFiles(files...)
@@ -186,7 +192,12 @@ func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.Execute(w, image)
+	page := models.ViewImagePage{
+		Image:           image,
+		ImageBackground: template.URL(mainPageBackgroundImage),
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", page)
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return

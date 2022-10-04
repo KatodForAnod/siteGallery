@@ -74,7 +74,6 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
-	// TODO fix background image disappear
 	files := []string{
 		"internal/tmpls/index.html",
 		"internal/tmpls/downloadFile.html",
@@ -91,7 +90,13 @@ func (h *Handlers) LoadImagePageGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.ExecuteTemplate(w, "MainPage", nil)
+	page := struct {
+		ImageBackground template.URL
+	}{
+		ImageBackground: template.URL(mainPageBackgroundImage),
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", page)
 	if err != nil {
 		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
 		return

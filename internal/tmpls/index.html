@@ -12,50 +12,50 @@
             margin: 0;
         }
 
-        .parent {
+        .mainDivBlock {
             background: #ffffff;
             width: 80%;
             margin: 1% auto;
         }
 
-        .uppImage {
+        .headerBlockIndex {
             text-align: left;
             background: #5B4176;
             font-size: large;
             height: 20%;
         }
 
-        .uppImage p {
+        .headerBlockIndex p {
             padding: 40px;
             margin: 0;
         }
 
-        #navbar {
+        #navigationHeaderBar {
             margin: 0;
             padding: 30px 20px 20px;
             list-style: none;
             text-align: right;
         }
 
-        #navbar li {
+        #navigationHeaderBar li {
             display: inline;
         }
 
-        #navbar a {
+        #navigationHeaderBar a {
             color: #D7E6F3;
             text-shadow: none;
             text-decoration: none;
         }
 
 
-        .mainBlock {
+        .bodyIndexBlock {
             padding: 1%;
             height: 100%;
             background: #D7E6F3;
             position: relative;
         }
 
-        .downloadBlock {
+        .loadImageBlock {
             padding: 10px;
             height: 900px;
             background: #D7E6F3;
@@ -74,7 +74,7 @@
             text-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .thumb img {
+        .imagesArray img {
             padding: 15px;
             margin: 5px;
             width: 225px;
@@ -83,15 +83,15 @@
             border-radius: 5px;
         }
 
-        .thumb img:hover {
+        .imagesArray img:hover {
             background: rgba(91, 65, 118, 0.4);
         }
 
-        .thumb {
+        .imagesArray {
             text-align: center;
         }
 
-        .mainBlockControl {
+        .bottomBlockControl {
             left: 40%;
             right: 40%;
         }
@@ -127,10 +127,10 @@
     </style>
 </head>
 <body>
-<div class="parent">
-    <div class="uppImage">
+<div class="mainDivBlock">
+    <div class="headerBlockIndex">
         <div>
-            <ul id="navbar">
+            <ul id="navigationHeaderBar">
                 <li><a href="/mainPg?id=1">Главная</a></li>
                 <li><a href="#">Новости</a></li>
                 {{template "indexHeader" .}}

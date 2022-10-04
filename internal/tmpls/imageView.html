@@ -1,10 +1,31 @@
-{{define "imgBlock"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+            width: 80%;
+            height: 80%;
+        }
+
+        .tag {
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
 <div class="mainBlock2">
-    <div class="thumb">
+
+    <div class="container">
         <img alt="Blank" src="{{.Data}}"/>
         {{range .Tags}}
-        <img . alt="Blank" src={{ }}/>
+        <p class="tag">{{ . }}</p>
         {{end}}
     </div>
 </div>
-{{end}}
+</body>

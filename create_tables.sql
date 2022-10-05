@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Img
     Id      SERIAL PRIMARY KEY,
     User_Id INTEGER REFERENCES Users (id),
     Img     text,
-    Tags    varchar(40)[]
+    Tags text[]
 );
 
 CREATE INDEX idx_scores ON Img USING GIN (Tags);

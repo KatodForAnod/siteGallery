@@ -6,6 +6,8 @@ services:
       - "5432:5432"
     env_file:
       - .env
+    volumes:
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
   app:
     build: .
     ports:

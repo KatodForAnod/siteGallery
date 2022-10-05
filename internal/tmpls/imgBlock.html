@@ -8,11 +8,10 @@
     </div>
 
     <div class="bottomBlockControl">
-        <ul class="prevCurrNext">
-            <li><a href={{.PagePrev}}><=Prev</a></li>
-            <li> |</li>
-            <li><a href={{.PageNext}}>Next=></a></li>
-        </ul>
+        <div class="prevCurrNext">
+            <a class="previous" href="{{.PagePrev}}">&laquo; Назад</a>
+            <a class="next" href="{{.PageNext}}">Вперед &raquo;</a>
+        </div>
     </div>
 </div>
 {{end}}

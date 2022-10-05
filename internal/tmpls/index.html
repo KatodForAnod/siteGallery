@@ -5,15 +5,20 @@
     <meta charset="UTF-8">
     <title>siteGallery</title>
     <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
+
         body {
             position: absolute;
-            background: #D7E6F3;
+            background: url("{{.ImageBackground}}") repeat;
 
             left: -25px;
             right: -25px;
             top: -25px;
-            padding: 3%;
+            padding: 1%;
             box-shadow: inset 0 0 0 3000px rgba(150, 150, 150, 0.192);
+            backdrop-filter: blur(15px);
         }
 
         .mainDivBlock {
@@ -61,6 +66,8 @@
             height: 100%;
             background: #D7E6F3;
             position: relative;
+            align-items: center;
+            justify-content: center;
         }
 
         .loadImageBlock {
@@ -116,17 +123,6 @@
             text-decoration: none;
         }
 
-
-        .prevCurrNext li {
-            display: inline;
-        }
-
-        .prevCurrNext {
-            list-style: none;
-            padding-inline-start: 0;
-            text-align: center;
-        }
-
         .pageImageView {
             display: flex;
             align-items: center;
@@ -142,6 +138,33 @@
 
         .pageImageView td {
             padding: 15px;
+        }
+
+        .prevCurrNext {
+            padding-inline-start: 0;
+            text-align: center;
+            padding: 1%;
+        }
+
+        .prevCurrNext a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+        .prevCurrNext a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .previous {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .next {
+            background-color: rgba(94, 68, 121, 0.35);
+            color: white;
         }
     </style>
 </head>

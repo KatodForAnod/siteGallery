@@ -87,25 +87,63 @@
             text-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .imagesArray img {
+        .imageInimagesArray {
             padding: 15px;
             margin: 5px;
             width: 225px;
             height: 225px;
             border-radius: 30px;
 
-            transform: scale(1, 1);
-            transition-timing-function: ease-out;
-            transition-duration: 550ms;
+            opacity: 1;
+            display: block;
+            transition: .5s ease;
+            backface-visibility: hidden;
         }
 
-        .imagesArray img:hover {
-            -webkit-transition: transform 0.5s ease-in-out;
-            transform: scale(1.1);
+        .textInimagesArrayWrapper {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .textInimagesArrayWrapper a {
+            color: #000000;
+            text-shadow: none;
+            text-decoration: none;
+        }
+
+        .imagesArrayText {
+            background-color: rgba(4, 37, 170, 0.69);
+            color: white;
+            font-size: 16px;
+            padding: 16px 32px;
         }
 
         .imagesArray {
-            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .container:hover .imageInimagesArray {
+            /*opacity: 0.3;*/
+            filter: blur(5px);
+            box-shadow: inset 0 0 0 3000px rgba(150, 150, 150, 0.600);
+        }
+
+        .container:hover .textInimagesArrayWrapper {
+            opacity: 1;
         }
 
         .bottomBlockControl {

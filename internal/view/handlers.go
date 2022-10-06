@@ -56,6 +56,12 @@ func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for i, data := range imagesArr {
+		if string(data.Data) == "" {
+			imagesArr[i].Data = template.URL(noImageAvailableImage)
+		}
+	}
+
 	pageBody, err := h.controller.PrepareImagesPage(imagesArr, id, "/mainPg")
 	if err != nil {
 		log.Println(err)
@@ -172,7 +178,7 @@ func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
 		h.ErrorHandling(err.Error(), http.StatusInternalServerError, w)
 		return
 	} else if id < 1 {
-		h.ErrorHandling("wrong page", http.StatusInternalServerError, w)
+		h.ErrorHandling("image not available", http.StatusInternalServerError, w)
 		return
 	}
 

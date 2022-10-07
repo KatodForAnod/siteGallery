@@ -4,13 +4,14 @@ Main tasks:
 1. authorization/registration system - done
 2. loading images - done
 4. caching html pages - not done
-5. tagging images - not done
+5. tagging images - done
 6. unit-tests - done
-7. indexing db tables for fast searching tagged images - not done
-8. module recently watched - not done
-9. module recommendation by users history - not done
-10. parallelize download page(later for module pages) - not done
-11. full rebuild front-end part with javascript and react - not done
+7. searching images by tags - not done
+8. indexing db tables for fast searching tagged images - done
+9. module recently watched - not done
+10. module recommendation by users history - not done
+11. parallelize download page(later for module pages) - not done
+12. full rebuild front-end part with javascript and react - not done
 
 ## How to run?
 1. ### Install docker and run it

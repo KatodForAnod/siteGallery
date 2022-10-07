@@ -16,6 +16,7 @@ type Handlers struct {
 }
 
 func (h *Handlers) GetImagesPage(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	files := []string{
 		"internal/tmpls/index.html",
 		"internal/tmpls/imgBlock.html",
@@ -164,7 +165,37 @@ func (h *Handlers) LoadImagePagePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/mainPg", http.StatusTemporaryRedirect)
+	h.SuccessResult(w, r)
+}
+
+func (h *Handlers) SuccessResult(w http.ResponseWriter, r *http.Request) {
+	files := []string{
+		"internal/tmpls/index.html",
+		"internal/tmpls/resultOfLoadFile.html",
+	}
+	if h.CheckAuth(r) {
+		files = append(files, "internal/tmpls/indexHeaderUnLogin.html")
+	} else {
+		files = append(files, "internal/tmpls/indexHeaderLogin.html")
+	}
+
+	tmpl, err := template.ParseFiles(files...)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
+		return
+	}
+
+	page := struct {
+		ImageBackground template.URL
+	}{
+		ImageBackground: template.URL(mainPageBackgroundImage),
+	}
+
+	err = tmpl.ExecuteTemplate(w, "MainPage", page)
+	if err != nil {
+		h.ErrorHandling(err.Error(), http.StatusBadRequest, w)
+		return
+	}
 }
 
 func (h *Handlers) ViewImageHandler(w http.ResponseWriter, r *http.Request) {
